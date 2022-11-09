@@ -36,7 +36,6 @@ class SaveGame:
             with open(f'save_load_game/menu_state/menu_state_save_file.txt', "r") as file:
                 data = json.load(file)
                 if i in data:
-                    print(i)
                     self.menu_state[i] = date
                 for b in data:
                     if b != i:

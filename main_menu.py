@@ -609,7 +609,7 @@ class Options:
         self.resolution_slider = Slider(self.game.screen, self.resolution_button.get_size[0] * 1.2, HEIGHT // 5, saving=True,
                                         value=settings.VALUE_SLIDER_DATA * 20)
         self.volume_slider = Slider(self.game.screen, self.resolution_button.get_size[0] * 1.2, HEIGHT // 3.5, saving=True,
-                                    value=int(settings.MAIN_VOLUME * 100))
+                                    value=settings.MAIN_VOLUME * 100)
         self.mouse_sensitivity_slider = Slider(self.game.screen, self.resolution_button.get_size[0] * 1.2, HEIGHT // 2.7, saving=True,
                                                value=settings.MOUSE_SENSITIVITY * 10000)
 
@@ -713,7 +713,6 @@ class Options:
 
     def volume_option(self):
         self.volume_number = self.volume_slider.get_slider_value
-        print(self.volume_number)
         self.draw_numbers(self.volume_number, self.resolution_slider.get_position[0] * 2.5, HEIGHT // 3.5)
 
     def mouse_sensitivity_option(self):
@@ -723,8 +722,8 @@ class Options:
 
     def save_options(self):
         if self.save_button.action():
-            settings.MAIN_VOLUME = self.volume_number // 100
-            self.options_data['volume'] = self.volume_number // 100
+            settings.MAIN_VOLUME = self.volume_number / 100
+            self.options_data['volume'] = self.volume_number / 100
             settings.MOUSE_SENSITIVITY = 0.00001 + self.sensitivity / 100000
             self.options_data['mouse_sens'] = 0.00001 + self.sensitivity / 100000
             self.game.save.save_options(self.options_data)
