@@ -3,13 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="b6d8131b-a10a-4f29-af83-42f68a4c881b" name="Changes" comment="Bug fix in volume">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_menu.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_menu.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/map.py" beforeDir="false" afterPath="$PROJECT_DIR$/map.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/new.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/player.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/renderer.py" beforeDir="false" afterPath="$PROJECT_DIR$/renderer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/save_load_game/options_save/game_options.txt" beforeDir="false" afterPath="$PROJECT_DIR$/save_load_game/options_save/game_options.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/save_load_game/saved_games/0.txt" beforeDir="false" afterPath="$PROJECT_DIR$/save_load_game/saved_games/0.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -265,7 +260,8 @@
       <workItem from="1667922156731" duration="13325000" />
       <workItem from="1667935727124" duration="58000" />
       <workItem from="1667944340442" duration="2870000" />
-      <workItem from="1667979079997" duration="6907000" />
+      <workItem from="1667979079997" duration="7981000" />
+      <workItem from="1667992768683" duration="2137000" />
     </task>
     <task id="LOCAL-00001" summary="Changes in sensitivity and win conditions">
       <created>1667980906080</created>
@@ -281,7 +277,14 @@
       <option name="project" value="LOCAL" />
       <updated>1667984348808</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Bug fix in volume">
+      <created>1667986768736</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1667986768736</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -308,7 +311,7 @@
     <SUITE FILE_PATH="coverage/Wolfenstein_Copy$random_map_generation.coverage" NAME="random_map_generation Coverage Results" MODIFIED="1667392932508" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Wolfenstein_Copy$button.coverage" NAME="button Coverage Results" MODIFIED="1667583971134" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Wolfenstein_Copy$main_menu.coverage" NAME="main_menu Coverage Results" MODIFIED="1667675218830" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Wolfenstein_Copy$main.coverage" NAME="main Coverage Results" MODIFIED="1667985985786" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Wolfenstein_Copy$main.coverage" NAME="main Coverage Results" MODIFIED="1668003578212" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Wolfenstein_Copy$raycaster_fast_floorcasting.coverage" NAME="raycaster_fast_floorcasting Coverage Results" MODIFIED="1666767693467" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Downloads/raycasting+floorcasting" />
     <SUITE FILE_PATH="coverage/Wolfenstein_Copy$test.coverage" NAME="test Coverage Results" MODIFIED="1667923400575" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Wolfenstein_Copy$map_generator.coverage" NAME="map_generator Coverage Results" MODIFIED="1667391825078" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
