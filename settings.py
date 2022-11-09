@@ -25,7 +25,7 @@ try:
 except (TypeError, KeyError):
     WIDTH, HEIGHT = 1200, 800
     MAIN_VOLUME = 0.1
-    MOUSE_SENSITIVITY = 0.0003
+    MOUSE_SENSITIVITY = 0.00003
     movement_dict = {
          0: 119,
          1: 115,
@@ -100,7 +100,7 @@ DARKBROWN = (97, 61, 25)
 DARKORANGE = (255, 140, 0)
 
 # USER OPTIONS
-NPC_KILL_CONDITION = False
+NPC_KILL_CONDITION = True
 MAX_NPC_KILLED = 4
 WIN_TIME = 60
 # world gen

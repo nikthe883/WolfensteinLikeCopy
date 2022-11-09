@@ -1,1 +1,1 @@
-{"movements": {"0": 119, "1": 115, "2": 100, "3": 97}, "resolution": {"height": 800, "width": 1280, "slider_value": 0}, "volume": 0, "mouse_sens": 0.0001}
+{"movements": {"0": 119, "1": 115, "2": 100, "3": 97}, "resolution": {"height": 800, "width": 1280, "slider_value": 0}, "volume": 0, "mouse_sens": 0.00021}

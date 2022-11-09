@@ -725,8 +725,8 @@ class Options:
         if self.save_button.action():
             settings.MAIN_VOLUME = self.volume_number // 100
             self.options_data['volume'] = self.volume_number // 100
-            settings.MOUSE_SENSITIVITY = 0.0001 + self.sensitivity / 10000
-            self.options_data['mouse_sens'] = 0.0001 + self.sensitivity / 10000
+            settings.MOUSE_SENSITIVITY = 0.00001 + self.sensitivity / 100000
+            self.options_data['mouse_sens'] = 0.00001 + self.sensitivity / 100000
             self.game.save.save_options(self.options_data)
 
 
