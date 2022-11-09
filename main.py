@@ -113,6 +113,7 @@ class Game:
 
     def run(self):
         while True and not self.pause:
+
             self.check_events()
             self.draw()
             self.update()
@@ -120,4 +121,4 @@ class Game:
 
 if __name__ == '__main__':
     game = Game()
-    # game.main_menu.run()
+

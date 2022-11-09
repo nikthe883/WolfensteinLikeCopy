@@ -6,7 +6,6 @@ from random_map_generation import generate_best_level
 
 class Map:
     def __init__(self, game):
-        print("Here")
         self.game = game
         self.load_minimap()
         self.world_map = {}

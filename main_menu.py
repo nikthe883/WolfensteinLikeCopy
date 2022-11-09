@@ -58,6 +58,7 @@ class MainMenu:
         pg.display.set_caption(f'{self.clock.get_fps() :.1f}')
         pg.display.flip()
 
+
     def draw_background(self):
         """Function to draw background and to move the bg image from one side
         to the other side"""
@@ -674,8 +675,6 @@ class Options:
                 self.game.screen.blit(self.res_images['back_slash'], ((i * self.digit_size) + width, height))
             elif char == ":":
                 pass
-            # elif char == "-":
-            #     pass
             else:
                 self.game.screen.blit(self.res_images[char], ((i * self.digit_size) + width, height))
 

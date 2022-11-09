@@ -70,7 +70,6 @@ class ObjectRenderer:
             to the given height and width"""
 
         frag = str(self.game.player.frag_counter)
-        print(frag)
         for i, char in enumerate(frag):
             if len(frag) == 1:
                 self.screen.blit(self.digits[char], ((i * self.digit_size) + HALF_WIDTH // 1.35, HEIGHT - self.game.hud.hud_size[1] + 20))

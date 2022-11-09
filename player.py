@@ -81,9 +81,8 @@ class Player:
                 self.game.final_score_menu.final_score_menu_trigger = True
                 self.game.final_score_menu.run()
         else:
-            if not self.game.menu_trigger:
+            if not self.game.menu_trigger and not self.game.pause:
                 self.elapsed += self.game.clock.get_time()
-
                 if self.elapsed > self.win_time:
                     self.game.object_renderer.win()
                     pg.display.flip()
@@ -244,7 +243,6 @@ class Player:
         if event.type == pg.MOUSEBUTTONDOWN:
             # shotgun
             if self.weapon_selected == "shotgun":
-                print("oks")
                 if event.button == 1 and not self.shot and not self.game.weapon.reloading and self.shotgun_ammo > 0:
                     self.game.sound.shotgun.play()
                     self.shot = True
