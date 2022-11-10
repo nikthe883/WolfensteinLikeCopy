@@ -22,10 +22,10 @@ class Player:
         self.armor = PLAYER_MAX_ARMOR
         self.rel = 0
 
-        self.health_recovery_delay = 50
+        self.health_recovery_delay = HEALTH_RECOVERY_DELAY
         self.time_prev = pg.time.get_ticks()
-        self.shotgun_ammo = 10
-        self.minigun_ammo = 999
+        self.shotgun_ammo = PLAYER_MAX_SHOTGUN_AMMO
+        self.minigun_ammo = PLAYER_MAX_MINIGUN_AMMO
         self.vruum_vruum_fuel = PLAYER_MAX_CHAINSAW_FUEL
         self.vruum_vruum_fuel_consumption = False
         self.minigun_ammo_fires = False
@@ -50,9 +50,11 @@ class Player:
         self.load()
 
     def score(self):
+        """Calculating the total score for the end game"""
         self.total_score = self.total_ammo_fired + self.frag_counter
 
     def load(self):
+        """Loading function of the saved player parameters"""
         if self.game.load.load_game:
             player_pos = self.game.load.loaded_data['player_pos']
             self.x = player_pos[0]
@@ -366,6 +368,8 @@ class Player:
             self.half_height = HALF_HEIGHT * 0.5
 
     def update(self):
+        """Updating function"""
+        self.recover_health()
         self.score()
         self.movement()
         self.mouse_control()

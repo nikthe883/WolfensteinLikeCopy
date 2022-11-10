@@ -2,9 +2,11 @@ from sprite_object import *
 from random import randint, random, choice
 import numpy as np
 import settings
+
 try:
     from pathfinding.core.grid import Grid
     from pathfinding.finder.a_star import AStarFinder
+
     library = True
 except ImportError:
     library = False
@@ -21,6 +23,7 @@ class NPC(AnimatedSprite):
         self.idle_images = self.get_images(self.path + '/idle')
         self.pain_images = self.get_images(self.path + '/pain')
         self.walk_images = self.get_images(self.path + '/walk')
+        # check what is the difficulty if the game is loaded or not
         if self.game.load.load_game:
             self.difficulty = self.game.load.loaded_data['difficulty']
         else:
@@ -53,27 +56,32 @@ class NPC(AnimatedSprite):
         self.game = game
 
     def update(self):
+        """Update method"""
         self.check_animation_time()
         self.get_sprite()
         self.run_logic()
 
     def check_wall(self, x, y):
+        """Helper for the collision returns the tiles that are occupied by walls"""
         return (x, y) not in self.game.map.world_map
 
     def check_wall_collision(self, dx, dy):
+        """Checking for wall collision. Using the size of the npcs sprite"""
         if self.check_wall(int(self.x + dx * self.size), int(self.y)):
             self.x += dx
         if self.check_wall(int(self.x), int(self.y + dy * self.size)):
             self.y += dy
 
     def path_find(self, start, goal, mini_map):
+        """Helper function for A star algorithm of the path finding library"""
         grid = Grid(matrix=mini_map, inverse=True)
         finder = AStarFinder()
         path, runs = finder.find_path(grid.node(start[0], start[1]), grid.node(goal[0], goal[1]), grid)
         return path[-1]
 
-
     def movement(self):
+        """This function is responsible for the NPC movement if the pathfinding library is installed
+        the movement is done by A star algorithm, else BFS"""
         if library:
             self.next_pos = self.path_find(self.map_pos, self.game.player.map_pos, self.game.map.mini_map)
         else:
@@ -82,6 +90,9 @@ class NPC(AnimatedSprite):
         next_x, next_y = self.next_pos
 
         if self.next_pos not in self.game.object_handler.npc_positions:
+            # calculates the angle math.atan2 is measuring the clockwise angle. We are getting the next positions
+            # then incrementing them 0.5 for not going into wall and subtracting the position that the npc is in.
+            # calculate the increments and check if there is a wall or not.
             angle = math.atan2(next_y + 0.5 - self.y, next_x + 0.5 - self.x)
             dx = math.cos(angle) * self.speed
             dy = math.sin(angle) * self.speed
@@ -160,7 +171,7 @@ class NPC(AnimatedSprite):
             self.game.sound.npc_death.play()
 
     def run_logic(self):
-        """"SImple run logic for the npc"""
+        """"Simple run logic for the npc"""
         if self.alive:
             self.ray_cast_value = self.ray_cast_player_npc()
             self.check_hit_in_npc()
@@ -193,7 +204,7 @@ class NPC(AnimatedSprite):
         return int(self.x), int(self.y)
 
     def ray_cast_player_npc(self):
-        """"Ray casting for npc to check if the player and the enemy are on site.
+        """Ray casting for npc to check if the player and the enemy are on site.
         Returns true else False remove bug when shooting through walls"""
         if self.game.player.map_pos == self.map_pos or self.game.player.map_pos == self.game.interactions.map_pos:
             return True

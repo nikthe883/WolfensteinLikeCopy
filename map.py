@@ -6,16 +6,16 @@ from random_map_generation import generate_best_level
 
 class Map:
     def __init__(self, game):
+        """Init the map and the minimap"""
         self.game = game
         self.load_minimap()
         self.world_map = {}
         self.get_map()
-
         self.rows = len(self.mini_map)
         self.cols = len(self.mini_map[0])
 
-
     def get_map(self):
+        """Getting the map"""
         for j, row in enumerate(self.mini_map):
             for i, value in enumerate(row):
                 if value:

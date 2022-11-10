@@ -3,7 +3,6 @@ from settings import *
 import numpy as np
 
 
-
 class RayCasting:
     def __init__(self, game):
         self.game = game
@@ -22,19 +21,19 @@ class RayCasting:
         # self.ray_casting_result = self.ray_cast(self.game.player.pos, self.game.player.map_pos, self.game.player.angle, self.game.map.world_map , self.game.sc_map)
 
         for ray, values in enumerate(self.ray_casting_result):
-            depth, proj_height, texture, offset = values
+            depth, projection_height, texture, offset = values
 
             wall_column = self.textures[texture].subsurface(
                 offset * (TEXTURE_SIZE - SCALE), 0, SCALE, TEXTURE_SIZE
 
             )
-            wall_column = pg.transform.scale(wall_column, (SCALE, proj_height))
-            wall_pos = (ray * SCALE, self.game.player.half_height - proj_height // 2)
-            self.objects_to_render.append((depth, wall_column, wall_pos))
+            wall_column = pg.transform.scale(wall_column, (SCALE, projection_height))
+            wall_position = (ray * SCALE, self.game.player.half_height - projection_height // 2)
+            self.objects_to_render.append((depth, wall_column, wall_position))
 
     def ray_cast(self):
         self.ray_casting_result = []
-        texture_vert, texture_hor = 1, 1
+        texture_vertical, texture_horizontal = 1, 1
         self.ox, self.oy = self.game.player.pos
         x_map, y_map = self.game.player.map_pos
 
@@ -44,60 +43,59 @@ class RayCasting:
             self.cos_a = np.cos(ray_angle)
 
             # horizontals
-            y_hor, dy = (y_map + 1, 1) if self.sin_a > 0 else (y_map - 1e-6, -1)
+            y_horizontal, dy = (y_map + 1, 1) if self.sin_a > 0 else (y_map - 1e-6, -1)
 
-            depth_hor = (y_hor - self.oy) / self.sin_a
-            x_hor = self.ox + depth_hor * self.cos_a
+            depth_horizontal = (y_horizontal - self.oy) / self.sin_a
+            x_horizontal = self.ox + depth_horizontal * self.cos_a
 
             delta_depth = dy / self.sin_a
             dx = delta_depth * self.cos_a
 
             for i in range(MAX_DEPTH):
-                tile_hor = int(x_hor), int(y_hor)
-                if tile_hor in self.game.map.world_map:
-                    texture_hor = self.game.map.world_map[tile_hor]
+                tile_horizontal = int(x_horizontal), int(y_horizontal)
+                if tile_horizontal in self.game.map.world_map:
+                    texture_horizontal = self.game.map.world_map[tile_horizontal]
                     break
-                x_hor += dx
-                y_hor += dy
-                depth_hor += delta_depth
+                x_horizontal += dx
+                y_horizontal += dy
+                depth_horizontal += delta_depth
 
             # verticals
-            x_vert, dx = (x_map + 1, 1) if self.cos_a > 0 else (x_map - 1e-6, -1)
+            x_vertical, dx = (x_map + 1, 1) if self.cos_a > 0 else (x_map - 1e-6, -1)
 
-            depth_vert = (x_vert - self.ox) / self.cos_a
-            y_vert = self.oy + depth_vert * self.sin_a
+            depth_vertical = (x_vertical - self.ox) / self.cos_a
+            y_vertical = self.oy + depth_vertical * self.sin_a
 
             delta_depth = dx / self.cos_a
             dy = delta_depth * self.sin_a
 
             for i in range(MAX_DEPTH):
-                tile_vert = int(x_vert), int(y_vert)
-                if tile_vert in self.game.map.world_map:
-                    texture_vert = self.game.map.world_map[tile_vert]
+                tile_vertical = int(x_vertical), int(y_vertical)
+                if tile_vertical in self.game.map.world_map:
+                    texture_vertical = self.game.map.world_map[tile_vertical]
                     break
-                x_vert += dx
-                y_vert += dy
-                depth_vert += delta_depth
+                x_vertical += dx
+                y_vertical += dy
+                depth_vertical += delta_depth
 
             # depth, texture offset
-            if depth_vert < depth_hor:
-                depth, texture = depth_vert, texture_vert
-                y_vert %= 1
-                offset = y_vert if self.cos_a > 0 else (1 - y_vert)
+            if depth_vertical < depth_horizontal:
+                depth, texture = depth_vertical, texture_vertical
+                y_vertical %= 1
+                offset = y_vertical if self.cos_a > 0 else (1 - y_vertical)
             else:
-                depth, texture = depth_hor, texture_hor
-                x_hor %= 1
-                offset = (1 - x_hor) if self.sin_a > 0 else x_hor
+                depth, texture = depth_horizontal, texture_horizontal
+                x_horizontal %= 1
+                offset = (1 - x_horizontal) if self.sin_a > 0 else x_horizontal
 
             # remove fishbowl effect
             depth *= math.cos(self.game.player.angle - ray_angle)
 
             # projection
-            proj_height = SCREEN_DIST / (depth + 0.0001)
+            projection_height = SCREEN_DIST / (depth + 0.0001)
 
             # ray casting result
-            self.ray_casting_result.append((depth, proj_height, texture, offset))
-
+            self.ray_casting_result.append((depth, projection_height, texture, offset))
 
             # drawing the cast on the minimap
             if self.show_raycast:

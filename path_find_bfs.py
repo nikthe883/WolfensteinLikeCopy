@@ -10,7 +10,7 @@ class PathFindingBFS:
         self.get_graph()
 
     def get_path(self, start, goal):
-        """Getting the path"""
+        """Getting the path. More info in the documentation"""
         self.visited = self.bfs(start, goal, self.graph)
         path = [goal]
         step = self.visited.get(goal, start)

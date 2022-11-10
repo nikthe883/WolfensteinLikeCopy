@@ -1,6 +1,7 @@
 import json
 import os
 import settings
+from json.decoder import JSONDecodeError
 
 
 class SaveGame:
@@ -9,6 +10,7 @@ class SaveGame:
         self.menu_state = {}
 
     def take_game_data(self):
+        """Taking all the data that is needed to make a successful save"""
         self.data = {}
         self.data['map'] = self.game.map.mini_map
         self.data['npc_positions'] = self.game.object_handler.update()[0]
@@ -29,8 +31,8 @@ class SaveGame:
         self.data['timer'] = self.game.player.elapsed
         self.data['difficulty'] = settings.DIFFICULTY
 
-
     def save_menu_state(self, i, date):
+        """Save and load menus status. For showing the saved games."""
         self.menu_state[i] = date
         if os.path.exists('save_load_game/menu_state/menu_state_save_file.txt'):
             with open(f'save_load_game/menu_state/menu_state_save_file.txt', "r") as file:
@@ -45,6 +47,7 @@ class SaveGame:
             json.dump(self.menu_state, file)
 
     def delete_save_game(self, i):
+        """Deleting the saved games"""
         if os.path.exists('save_load_game/menu_state/menu_state_save_file.txt'):
             with open(f'save_load_game/menu_state/menu_state_save_file.txt', "r") as file:
                 data = json.load(file)
@@ -54,10 +57,12 @@ class SaveGame:
             json.dump(data, file)
 
     def save_options(self, game_options_data):
+        """For saving the options"""
         with open(f'save_load_game/options_save/game_options.txt', "w") as file:
             json.dump(game_options_data, file)
 
     def save_game_data(self, i):
+        """Saving all the game states"""
         with open(f'save_load_game/saved_games/{i}.txt', "w") as file:
             json.dump(self.data, file)
 
@@ -66,24 +71,29 @@ class LoadGame:
     def __init__(self, game=None):
         self.game = game
         self.loaded_data = {}
-
         self.load_game = False
 
     def open_game_data(self, name):
-        if os.path.exists(f'save_load_game/saved_games/{name}.txt'):
-            self.load_game = True
-            self.game.load_game_menu.load_game_menu_trigger = False
-            self.game.menu_trigger = False
-            self.game.pause = False
+        """Loading the game data"""
+        try:
+            if os.path.exists(f'save_load_game/saved_games/{name}.txt'):
+                self.load_game = True
+                self.game.load_game_menu.load_game_menu_trigger = False
+                self.game.menu_trigger = False
+                self.game.pause = False
 
-            with open(f'save_load_game/saved_games/{name}.txt', 'r') as file:
-                self.loaded_data = json.load(file)
+                with open(f'save_load_game/saved_games/{name}.txt', 'r') as file:
+                    self.loaded_data = json.load(file)
 
-            self.game.new_game()
-        else:
-            print("NO save")
+                self.game.new_game()
+            else:
+                print("No save")
+        except JSONDecodeError:
+            self.load_game = False
+            print("map file is corrupted. Creating a new map")
 
     def open_menu_saving_data(self):
+        """Loading the save and load menu if there are saved games"""
         if os.path.exists('save_load_game/menu_state/menu_state_save_file.txt'):
             with open('save_load_game/menu_state/menu_state_save_file.txt', 'r') as file:
                 savings_data = json.load(file)
@@ -91,6 +101,7 @@ class LoadGame:
         return ""
 
     def load_options(self):
+        """Loading method for the options"""
         if os.path.exists(f'save_load_game/options_save/game_options.txt'):
             with open(f'save_load_game/options_save/game_options.txt', 'r') as file:
                 resolution_data = json.load(file)

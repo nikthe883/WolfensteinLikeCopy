@@ -17,17 +17,14 @@ class ObjectRenderer:
         self.game_over_image = self.get_textures('resources/textures/game_over.png', SCREEN_RESOLUTION)
         self.win_image = self.get_textures('resources/textures/win.png', SCREEN_RESOLUTION)
 
-
     def draw_timer(self):
+        """Function for drawing the timer if win condition by time is True"""
         if not self.game.player.npc_kill_condition:
             counting_time = int(self.game.player.win_time - self.game.player.elapsed)
-            # print(self.game.player.elapsed)
-
             counting_seconds = str((counting_time // 1000))
 
             if int(counting_seconds) <= 0:
                 counting_seconds = "0"
-
             for i, char in enumerate(counting_seconds):
                 self.screen.blit(self.digits[char], ((i * self.digit_size) + HALF_WIDTH // 1.1, 0))
 

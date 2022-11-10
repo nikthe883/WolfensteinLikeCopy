@@ -7,7 +7,7 @@ HEIGHT = HEIGHT
 
 
 class Hud:
-    """"Class hud everython that is showed on the screen like ammo, weapon selections, small player sprite animations,
+    """"Class hud everything that is showed on the screen like ammo, weapon selections, small player sprite animations,
     without the weapons they are in a different class Weapons and the minimap."""
 
     def __init__(self, game):
@@ -70,7 +70,8 @@ class Hud:
             self.game.screen.blit(self.weapons_transformed[2], (0, self.weapons_transformed[1].get_size()[1] * 1.8))
 
     def draw(self):
-        # showing on the screen
+        """Drawing method to sho on screen"""
+
         self.game.screen.blit(self.hud_image, (0, HEIGHT - self.hud_image.get_size()[1]))
         self.animate_player_hud_sprite()
         self.game.screen.blit(self.player_small_sprite_transformed[0], (HALF_WIDTH - self.small_player_image_size[0] // 2, HEIGHT - self.hud_size[1]))
