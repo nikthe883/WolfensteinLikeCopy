@@ -18,7 +18,6 @@ class RayCasting:
 
     def get_objects_to_render(self):
         self.objects_to_render = []
-        # self.ray_casting_result = self.ray_cast(self.game.player.pos, self.game.player.map_pos, self.game.player.angle, self.game.map.world_map , self.game.sc_map)
 
         for ray, values in enumerate(self.ray_casting_result):
             depth, projection_height, texture, offset = values

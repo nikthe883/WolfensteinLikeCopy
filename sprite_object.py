@@ -7,7 +7,7 @@ from collections import deque
 
 class SpriteObject:
     def __init__(self, game, path='resources/sprites/static_sprites/candlebra.png',
-                 pos=(10.5, 3.5), scale=0.7, shift=0.27, pick=False, type=None,gone=False):
+                 pos=(10.5, 3.5), scale=0.7, shift=0.27, pick=False, type=None, gone=False):
         self.game = game
         self.player = game.player
         self.x, self.y = pos
@@ -25,16 +25,16 @@ class SpriteObject:
         self.SPRITE_HEIGHT_SHIFT = shift
         self.loot_type_list = ["armor", "minigun_ammo", "shotgun_ammo", "chainsaw_ammo", "health"]
 
-
     def get_sprite_projection(self):
-        proj = SCREEN_DIST / self.norm_dist * self.SPRITE_SCALE
-        proj_width, proj_height = proj * self.IMAGE_RATIO, proj
+        """Getting the sprite projection. More in docs"""
+        projection = SCREEN_DIST / self.norm_dist * self.SPRITE_SCALE
+        projection_width, projection_height = projection * self.IMAGE_RATIO, projection
 
-        image = pg.transform.scale(self.image, (proj_width, proj_height))
+        image = pg.transform.scale(self.image, (projection_width, projection_height))
 
-        self.sprite_half_width = proj_width // 2
-        height_shift = proj_height * self.SPRITE_HEIGHT_SHIFT
-        pos = self.screen_x - self.sprite_half_width, self.game.player.half_height - proj_height // 2 + height_shift
+        self.sprite_half_width = projection_width // 2
+        height_shift = projection_height * self.SPRITE_HEIGHT_SHIFT
+        pos = self.screen_x - self.sprite_half_width, self.game.player.half_height - projection_height // 2 + height_shift
 
         self.game.raycasting.objects_to_render.append((self.norm_dist, image, pos))
 
@@ -64,7 +64,6 @@ class SpriteObject:
                     if self.game.player.vruum_vruum_fuel < PLAYER_MAX_CHAINSAW_FUEL:
                         self.game.player.vruum_vruum_fuel += 40
 
-
     def get_sprite(self):
         dx = self.x - self.player.x
         dy = self.y - self.player.y
@@ -83,12 +82,9 @@ class SpriteObject:
         if -self.IMAGE_HALF_WIDTH < self.screen_x < (WIDTH + self.IMAGE_HALF_WIDTH) and self.norm_dist > 0.5:
             self.get_sprite_projection()
 
-
     def update(self):
         self.get_sprite()
         self.pick_object()
-
-
 
 
 class AnimatedSprite(SpriteObject):

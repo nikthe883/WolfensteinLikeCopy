@@ -9,17 +9,13 @@ from datetime import datetime
 
 class MainMenu:
     def __init__(self, game):
-
         self.game = game
         self.main_menu_image = pg.image.load('resources/menu/menu_images/main_menu_bg.jpg').convert_alpha()
-
         self.main_menu_image = pg.transform.scale(self.main_menu_image, (WIDTH * 2, HEIGHT))
-
         self.rotate_back = False
         self.main_menu_image_position = 0
         self.delta_time = 1
         self.clock = pg.time.Clock()
-
         self.resume_game_button = Button(self.game.screen, 'resources/menu/buttons/resume.png', 1.5, 1.9, action_lock=True)
         self.new_game_button = Button(self.game.screen, 'resources/menu/buttons/new_game.png', 1.5, 1.9)
         self.load_game_button = Button(self.game.screen, 'resources/menu/buttons/load_game.png', 1.5, 1.9)
@@ -28,27 +24,32 @@ class MainMenu:
         self.exit_button = Button(self.game.screen, 'resources/menu/buttons/exit.png', 1.5, 1.9)
 
     def check_events(self):
+        """Loop for checking events in pygame if quit"""
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit()
                 sys.exit()
 
     def start_new_game(self):
+        """Function for going to the new game menu"""
         if self.new_game_button.action():
             self.game.new_game_menu.new_game_trigger = True
             self.game.new_game_menu.run()
 
     def save_game(self):
+        """Function for going to the save game menu"""
         if self.save_game_button.action():
             self.game.save_game_menu.save_game_menu_trigger = True
             self.game.save_game_menu.run()
 
     def load_game(self):
+        """Function for loading game"""
         if self.load_game_button.action():
             self.game.load_game_menu.load_game_menu_trigger = True
             self.game.load_game_menu.run()
 
     def update(self):
+        """Updating function"""
         self.options()
         self.resume_game()
         self.load_game()
@@ -57,7 +58,6 @@ class MainMenu:
         self.delta_time = self.clock.tick(60)
         pg.display.set_caption(f'{self.clock.get_fps() :.1f}')
         pg.display.flip()
-
 
     def draw_background(self):
         """Function to draw background and to move the bg image from one side
@@ -73,16 +73,19 @@ class MainMenu:
                 self.rotate_back = False
 
     def exit_game(self):
+        """Exiting the game"""
         if self.exit_button.action():
             pg.quit()
             sys.exit()
 
     def resume_game(self):
+        """For pausing the game"""
         if self.resume_game_button.action():
             self.game.pause = False
             self.game.menu_trigger = False
 
     def options(self):
+        """Fucntion for going to options menu"""
         if self.options_button.action():
             self.game.options_game_menu.options_menu_trigger = True
             self.game.options_game_menu.run()
@@ -99,10 +102,12 @@ class MainMenu:
         self.save_game_button.draw(WIDTH // 2 - self.save_game_button.get_size[0], HEIGHT // 2.1)
         self.options_button.draw(WIDTH // 2 - self.save_game_button.get_size[0], HALF_HEIGHT * 1.2)
         self.exit_button.draw(WIDTH // 2 - self.save_game_button.get_size[0], HALF_HEIGHT * 1.5)
+
         self.exit_game()
         self.start_new_game()
 
     def run(self):
+        """Running loop"""
         while self.game.menu_trigger:
             self.check_events()
             self.update()
@@ -154,6 +159,7 @@ class NewGame:
         return pg.transform.scale(texture, res)
 
     def check_events(self):
+        """Function for checking events """
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit()
@@ -173,6 +179,7 @@ class NewGame:
                 self.rotate_back = False
 
     def update(self):
+        """Updating function"""
         self.start_new_game()
         self.win_condition_options()
         self.enemy_count_options()
@@ -187,6 +194,7 @@ class NewGame:
         pg.display.flip()
 
     def back_main_menu(self):
+        """for going back to main menu"""
         if self.back_button.action():
             self.new_game_trigger = False
 
@@ -196,6 +204,7 @@ class NewGame:
             self.game.screen.blit(self.digits[char], ((i * self.digit_size) + width, height))
 
     def win_condition_options(self):
+        """Function to choose the winning condition of the game"""
         if self.kills_condition_button.action():
             self.time_condition_button.option = False
             self.kills_condition_button.option = True
@@ -215,6 +224,7 @@ class NewGame:
             self.draw_numbers(settings.WIN_TIME // 1000, self.kill_number_slider.get_position[0] * 1.7, HEIGHT // 4)
 
     def game_difficulty_options(self):
+        """Funtion for choosing the difficulty"""
         if self.easy_condition_button.action():
             self.hard_condition_button.option = False
             self.easy_condition_button.option = True
@@ -225,14 +235,17 @@ class NewGame:
             settings.DIFFICULTY = "hard"
 
     def map_generation_options(self):
+        """Function for map generation option"""
         settings.LEVEL_SIZE = 30 + self.tile_number_slider.get_slider_value // 5
         self.draw_numbers(settings.LEVEL_SIZE, self.kill_number_slider.get_position[0] * 1.7, HEIGHT // 3)
 
     def enemy_count_options(self):
+        """For enemy spawn option"""
         settings.NPC_COUNT = 5 + self.number_of_enemy_slider.get_slider_value // 2
         self.draw_numbers(settings.NPC_COUNT, self.kill_number_slider.get_position[0] * 1.7, HEIGHT // 2.4)
 
     def start_new_game(self):
+        """Starting the game calling the main game loop"""
         if self.start_game_button.action():
             self.new_game_trigger = False
             self.game.menu_trigger = False
@@ -265,6 +278,8 @@ class NewGame:
         self.back_main_menu()
 
     def run(self):
+        """Running in while loop
+        """
         while self.new_game_trigger:
             self.check_events()
             self.update()
@@ -274,12 +289,12 @@ class NewGame:
 class SaveGameMenu:
     def __init__(self, game):
         self.game = game
-        self.new_game_image = pg.image.load('resources/menu/menu_images/save_game_bg.jpg').convert_alpha()
+        self.save_game_image = pg.image.load('resources/menu/menu_images/save_game_bg.jpg').convert_alpha()
 
-        self.new_game_image = pg.transform.scale(self.new_game_image, (WIDTH * 2, HEIGHT))
+        self.save_game_image = pg.transform.scale(self.save_game_image, (WIDTH * 2, HEIGHT))
 
         self.rotate_back = False
-        self.new_game_image_position = 0
+        self.save_game_image_position = 0
         self.delta_time = 1
         self.clock = pg.time.Clock()
         self.save_game_menu_trigger = True
@@ -292,14 +307,17 @@ class SaveGameMenu:
         self.delete_save_game_button = Button(self.game.screen, 'resources/menu/buttons/delete.png', 1, 1.2)
         self.empty_slot_list = []
 
+        # making a list of the empty slot buttons
         for i in range(7):
             self.empty_slot_list.append(Button(self.game.screen, 'resources/menu/buttons/empty_slot.png', 1, 1.2, option=False))
 
+        # for getting the date images
         self.date_images_dict = {}
         for i in os.listdir('resources/menu/date_images'):
             i = i.split(".png")
             self.date_images_dict[i[0]] = self.get_textures(f'resources/menu/date_images/{i[0]}.png', 0.8)
 
+        # placement of the empty slots list
         self.empty_slot_list_placement = [
             (0, HEIGHT // 4),
             (0, HEIGHT // 3),
@@ -309,13 +327,14 @@ class SaveGameMenu:
             (0, HEIGHT // 1.5),
             (0, HEIGHT // 1.34),
         ]
-        self.digit_size = WIDTH // DIGIT_SIZE_SCALE
 
+        self.digit_size = WIDTH // DIGIT_SIZE_SCALE
         self.date_images_list_blit = []
         self.back_button = Button(self.game.screen, 'resources/menu/buttons/back.png', 1, 1.2)
         self.show_saved_game_slots()
 
     def show_saved_game_slots(self):
+        """Showing the slots that are saved game"""
         savings_data = self.game.load.open_menu_saving_data()
         for i in range(len(self.empty_slot_list)):
             if str(i) in savings_data:
@@ -332,27 +351,30 @@ class SaveGameMenu:
     def draw_background(self):
         """Function to draw background and to move the bg image from one side
         to the other side"""
-        self.game.screen.blit(self.new_game_image, (0, 0), (self.new_game_image_position % WIDTH, 0, WIDTH, HEIGHT))
+        self.game.screen.blit(self.save_game_image, (0, 0), (self.save_game_image_position % WIDTH, 0, WIDTH, HEIGHT))
         if not self.rotate_back:
-            self.new_game_image_position += 0.5
-            if self.new_game_image_position == WIDTH:
+            self.save_game_image_position += 0.5
+            if self.save_game_image_position == WIDTH:
                 self.rotate_back = True
         if self.rotate_back:
-            self.new_game_image_position -= 0.5
-            if self.new_game_image_position == 0:
+            self.save_game_image_position -= 0.5
+            if self.save_game_image_position == 0:
                 self.rotate_back = False
 
     def check_events(self):
+        """Checking for events"""
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit()
                 sys.exit()
 
     def back_main_menu(self):
+        """Back to main menu function"""
         if self.back_button.action():
             self.save_game_menu_trigger = False
 
     def choose_slot(self):
+        """Function for choosing the slot. When user clicks on it, the slot is selected and transformed to bigger scale"""
         for i in range(len(self.empty_slot_list)):
             if self.empty_slot_list[i].action():
                 self.empty_slot_list[i].option = True
@@ -361,6 +383,7 @@ class SaveGameMenu:
                     c.option = False
 
     def draw_date(self, height, data):
+        """Function for drawwing the date when game is saved"""
         for i, char in enumerate(str(data)):
             if char == "/":
                 self.game.screen.blit(self.date_images_dict['back_slash'], ((i * self.digit_size) + self.empty_slot_list[0].get_size[0] * 1.3, height))
@@ -370,7 +393,7 @@ class SaveGameMenu:
                 self.game.screen.blit(self.date_images_dict[char], ((i * self.digit_size) + self.empty_slot_list[0].get_size[0] * 1.3, height))
 
     def save_game(self):
-
+        """For saving the game"""
         if self.save_game_button.action():
             for i in range(len(self.empty_slot_list)):
                 if self.empty_slot_list[i].option:
@@ -382,19 +405,19 @@ class SaveGameMenu:
                         self.draw_date_no_error = True
                         self.game.save.save_menu_state(str(i), self.dt_string)
 
-
-
                     except AttributeError:
                         print("You can't save not existing game")
                         self.draw_date_no_error = False
 
     def show_saved_games(self):
+        """For showing the saved games"""
         savings_data = self.game.load.open_menu_saving_data()
         for i in range(len(self.empty_slot_list)):
             if str(i) in savings_data:
                 self.draw_date(self.empty_slot_list_placement[i][1], savings_data[str(i)])
 
     def delete_saved_games(self):
+        """Deleting the saved games"""
         if self.delete_save_game_button.action():
             for i in range(len(self.empty_slot_list)):
                 if self.empty_slot_list[i].option:
@@ -411,22 +434,25 @@ class SaveGameMenu:
         # save game slots
         for i in range(len(self.empty_slot_list)):
             self.empty_slot_list[i].draw(self.empty_slot_list_placement[i][0], self.empty_slot_list_placement[i][1])
-
         # for going back
         self.back_button.draw(1.2, 1.2)
         self.back_main_menu()
 
     def update(self):
+        """Updating the game loop"""
         self.save_game()
         self.choose_slot()
         self.delete_saved_games()
+
         if self.update_list:
             self.show_saved_games()
+
         self.delta_time = self.clock.tick(60)
         pg.display.set_caption(f'{self.clock.get_fps() :.1f}')
         pg.display.flip()
 
     def run(self):
+        """Running loop"""
         while self.save_game_menu_trigger:
             self.check_events()
             self.update()
@@ -441,7 +467,7 @@ class LoadGameMenu:
         self.load_game_bg_image = pg.transform.scale(self.load_game_bg_image, (WIDTH * 2, HEIGHT))
 
         self.rotate_back = False
-        self.new_game_image_position = 0
+        self.load_game_image_position = 0
         self.delta_time = 1
         self.clock = pg.time.Clock()
         self.load_game_menu_trigger = True
@@ -476,6 +502,7 @@ class LoadGameMenu:
         self.show_loaded_game_slots()
 
     def show_loaded_game_slots(self):
+        """Showing the loaded slots eg saved game"""
         savings_data = self.game.load.open_menu_saving_data()
         for i in range(len(self.empty_slot_list)):
             if str(i) in savings_data:
@@ -492,14 +519,14 @@ class LoadGameMenu:
     def draw_background(self):
         """Function to draw background and to move the bg image from one side
         to the other side"""
-        self.game.screen.blit(self.load_game_bg_image, (0, 0), (self.new_game_image_position % WIDTH, 0, WIDTH, HEIGHT))
+        self.game.screen.blit(self.load_game_bg_image, (0, 0), (self.load_game_image_position % WIDTH, 0, WIDTH, HEIGHT))
         if not self.rotate_back:
-            self.new_game_image_position += 0.5
-            if self.new_game_image_position == WIDTH:
+            self.load_game_image_position += 0.5
+            if self.load_game_image_position == WIDTH:
                 self.rotate_back = True
         if self.rotate_back:
-            self.new_game_image_position -= 0.5
-            if self.new_game_image_position == 0:
+            self.load_game_image_position -= 0.5
+            if self.load_game_image_position == 0:
                 self.rotate_back = False
 
     def check_events(self):
@@ -628,6 +655,7 @@ class Options:
         return image
 
     def check_events(self):
+        """Checking for events and looking for keybindings"""
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit()
@@ -718,7 +746,6 @@ class Options:
         self.sensitivity = self.mouse_sensitivity_slider.get_slider_value
         self.draw_numbers(self.sensitivity, self.resolution_slider.get_position[0] * 2.5, HEIGHT // 2.7)
 
-
     def save_options(self):
         if self.save_button.action():
             settings.MAIN_VOLUME = self.volume_number / 100
@@ -726,8 +753,6 @@ class Options:
             settings.MOUSE_SENSITIVITY = 0.00001 + self.sensitivity / 100000
             self.options_data['mouse_sens'] = 0.00001 + self.sensitivity / 100000
             self.game.save.save_options(self.options_data)
-
-
 
     def draw_inputs_helper(self, key_binding, width, height):
         text = settings.FONT.render(pg.key.name(key_binding), True, settings.RED)
@@ -786,9 +811,9 @@ class FinalScore:
     def __init__(self, game):
 
         self.game = game
-        self.options_menu_bg = pg.image.load('resources/menu/menu_images/final_score_bg.jpg').convert_alpha()
+        self.final_score_bg_image = pg.image.load('resources/menu/menu_images/final_score_bg.jpg').convert_alpha()
 
-        self.options_menu_bg = pg.transform.scale(self.options_menu_bg, (WIDTH * 2, HEIGHT))
+        self.final_score_bg_image = pg.transform.scale(self.final_score_bg_image, (WIDTH * 2, HEIGHT))
 
         self.res_images = {}
         for i in os.listdir('resources/menu/date_images'):
@@ -796,7 +821,7 @@ class FinalScore:
             self.res_images[i[0]] = self.get_textures(f'resources/menu/date_images/{i[0]}.png', 0.8)
 
         self.rotate_back = False
-        self.options_menu_bg_position = 0
+        self.final_score_bg_position = 0
         self.delta_time = 1
         self.clock = pg.time.Clock()
         self.final_score_menu_trigger = True
@@ -827,14 +852,14 @@ class FinalScore:
     def draw_background(self):
         """Function to draw background and to move the bg image from one side
         to the other side"""
-        self.game.screen.blit(self.options_menu_bg, (0, 0), (self.options_menu_bg_position % WIDTH, 0, WIDTH, HEIGHT))
+        self.game.screen.blit(self.final_score_bg_image, (0, 0), (self.final_score_bg_position % WIDTH, 0, WIDTH, HEIGHT))
         if not self.rotate_back:
-            self.options_menu_bg_position += 0.5
-            if self.options_menu_bg_position == WIDTH:
+            self.final_score_bg_position += 0.5
+            if self.final_score_bg_position == WIDTH:
                 self.rotate_back = True
         if self.rotate_back:
-            self.options_menu_bg_position -= 0.5
-            if self.options_menu_bg_position == 0:
+            self.final_score_bg_position -= 0.5
+            if self.final_score_bg_position == 0:
                 self.rotate_back = False
 
     def draw_numbers(self, number, width, height):

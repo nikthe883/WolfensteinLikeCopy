@@ -10,7 +10,7 @@ class PathFindingBFS:
         self.get_graph()
 
     def get_path(self, start, goal):
-        """Getting the path. More info in the documentation"""
+        """Getting the path"""
         self.visited = self.bfs(start, goal, self.graph)
         path = [goal]
         step = self.visited.get(goal, start)
@@ -21,7 +21,7 @@ class PathFindingBFS:
         return path[-1]
 
     def bfs(self, start, goal, graph):
-        """bfs algorithm """
+        """Bfs algorithm More info in docs"""
         queue = deque([start])
         visited = {start: None}
 
