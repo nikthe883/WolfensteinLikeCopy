@@ -90,7 +90,7 @@ class LoadGame:
                 print("No save")
         except JSONDecodeError:
             self.load_game = False
-            print("map file is corrupted. Creating a new map")
+            print("map file is corrupted")
 
     def open_menu_saving_data(self):
         """Loading the save and load menu if there are saved games"""
