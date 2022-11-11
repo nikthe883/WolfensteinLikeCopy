@@ -9,17 +9,12 @@ import random
 import settings
 
 
-
-
-
 def drunken_walk():
     """"Very simple implementation of the random walk algorithm"""
     _ = False
     level_width = settings.LEVEL_SIZE
     level_height = settings.LEVEL_SIZE
-    print(settings.LEVEL_SIZE)
 
-    amount_of_levels = 200
     tiles_to_be_removed = level_height * level_width // 4
 
     drunk = {
