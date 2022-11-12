@@ -4,7 +4,18 @@ import numpy as np
 
 
 class RayCasting:
+    """
+    Class RayCasting
+
+    """
     def __init__(self, game):
+        """
+        Init method of class RayCasting
+
+        :param game: Game object
+        :type game: self
+        """
+
         self.game = game
         self.objects_to_render = []
         self.textures = self.game.object_renderer.wall_textures
@@ -13,10 +24,27 @@ class RayCasting:
         self.ray_casting_result = []
 
     def update(self):
+        """
+        Update function for the class
+
+        :return: None
+        :rtype: None
+        """
+
         self.ray_cast()
         self.get_objects_to_render()
 
     def get_objects_to_render(self):
+        """
+        Functions for getting the objects that need to be rendered
+
+        This function transforms the images to the output of the ray_cast function.
+        Appends them to a list and sends them to render class
+
+        :return: None
+        :rtype: None
+        """
+
         self.objects_to_render = []
 
         for ray, values in enumerate(self.ray_casting_result):
@@ -31,6 +59,15 @@ class RayCasting:
             self.objects_to_render.append((depth, wall_column, wall_position))
 
     def ray_cast(self):
+        """
+        Ray casting function.
+
+        More info in docs under Explanation.
+
+        :return: None
+        :rtype: None
+        """
+
         self.ray_casting_result = []
         texture_vertical, texture_horizontal = 1, 1
         self.ox, self.oy = self.game.player.pos

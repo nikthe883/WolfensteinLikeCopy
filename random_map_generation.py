@@ -10,7 +10,13 @@ import settings
 
 
 def drunken_walk():
-    """"Very simple implementation of the random walk algorithm"""
+    """
+    Very simple implementation of the random walk algorithm
+
+    :return: level, start_coordinate, end_coordinate
+    :rtype: list
+    """
+
     _ = False
     level_width = settings.LEVEL_SIZE
     level_height = settings.LEVEL_SIZE
@@ -56,7 +62,19 @@ def drunken_walk():
 
 
 def get_path(start, goal, random_map):
-    """"A star algorithm from library"""
+    """
+    Helper function for calling the A star algorithm.
+
+    :param start: starting coordinates
+    :type start: tuple
+    :param goal: Ending coordinates
+    :type goal: tuple
+    :param random_map:  The generated map
+    :type random_map:list
+    :return: path
+    :rtype: list
+    """
+
     grid = Grid(matrix=random_map, inverse=True)
     finder = AStarFinder()
     path, runs = finder.find_path(grid.node(start[0], start[1]), grid.node(goal[0], goal[1]), grid)
@@ -64,8 +82,17 @@ def get_path(start, goal, random_map):
 
 
 def evaluate_levels(levels):
-    """"Function that evaluates the level created and returns the len of the path
-    and the level. The path needs to be the longest gor the level to be selected as playable """
+    """
+    Function that evaluated the level created
+
+    The path needs to be the longest gor the level to be selected as playable
+
+    :param levels: Map level
+    :type levels: list
+    :return: Evaluation scores
+    :rtype: list
+    """
+
     evaluation_scores = []
 
     for generated_level, start_coordinate, end_coordinate in levels:
@@ -83,8 +110,19 @@ def evaluate_levels(levels):
 
 
 def generate_best_level(number_of_levels):
-    """"Here we are choosing the best level with the longest path to play if there is the pathfinding
-    library else we return the first generated level"""
+    """
+    Function for choosing the best level
+
+    Takes the longest path to play if there is the pathfinding
+    library else we return the first generated level
+
+
+    :param number_of_levels: Number of levels
+    :type number_of_levels: int
+    :return: Best level
+    :rtype: list
+    """
+
     if library:
         levels = [drunken_walk() for _ in range(number_of_levels)]
 

@@ -8,7 +8,18 @@ from datetime import datetime
 
 
 class MainMenu:
+    """
+    Main menu class
+
+    """
     def __init__(self, game):
+        """
+        Init method of the main menu class
+
+        :param game: Game class instance
+        :type game: object
+        """
+
         self.game = game
         self.main_menu_image = pg.image.load('resources/menu/menu_images/main_menu_bg.jpg').convert_alpha()
         self.main_menu_image = pg.transform.scale(self.main_menu_image, (WIDTH * 2, HEIGHT))
@@ -24,32 +35,62 @@ class MainMenu:
         self.exit_button = Button(self.game.screen, 'resources/menu/buttons/exit.png', 1.5, 1.9)
 
     def check_events(self):
-        """Loop for checking events in pygame if quit"""
+        """
+        Function for event loop.
+
+        :return: None
+        :rtype: None
+        """
+
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit()
                 sys.exit()
 
     def start_new_game(self):
-        """Function for going to the new game menu"""
+        """
+        Function for calling the new game menu.
+
+        :return: None
+        :rtype: None
+        """
+
         if self.new_game_button.action():
             self.game.new_game_menu.new_game_trigger = True
             self.game.new_game_menu.run()
 
     def save_game(self):
-        """Function for going to the save game menu"""
+        """
+        Function for calling the save game menu
+
+        :return: None
+        :rtype: None
+        """
+
         if self.save_game_button.action():
             self.game.save_game_menu.save_game_menu_trigger = True
             self.game.save_game_menu.run()
 
     def load_game(self):
-        """Function for loading game"""
+        """
+        Function for calling the load game menu.
+
+        :return: None
+        :rtype: None
+        """
+
         if self.load_game_button.action():
             self.game.load_game_menu.load_game_menu_trigger = True
             self.game.load_game_menu.run()
 
     def update(self):
-        """Updating function"""
+        """
+        Function for updating.
+
+        :return: None
+        :rtype: None
+        """
+
         self.options()
         self.resume_game()
         self.load_game()
@@ -60,8 +101,13 @@ class MainMenu:
         pg.display.flip()
 
     def draw_background(self):
-        """Function to draw background and to move the bg image from one side
-        to the other side"""
+        """
+        Function for drawing the moving background
+
+        :return: None
+        :rtype: None
+        """
+
         self.game.screen.blit(self.main_menu_image, (0, 0), (self.main_menu_image_position % WIDTH, 0, WIDTH, HEIGHT))
         if not self.rotate_back:
             self.main_menu_image_position += 0.5
@@ -73,25 +119,49 @@ class MainMenu:
                 self.rotate_back = False
 
     def exit_game(self):
-        """Exiting the game"""
+        """
+        Function for exiting the game.
+
+        :return: None
+        :rtype: None
+        """
+
         if self.exit_button.action():
             pg.quit()
             sys.exit()
 
     def resume_game(self):
-        """For pausing the game"""
+        """
+        Function for pausing the game.
+
+        :return: None
+        :rtype: None
+        """
+
         if self.resume_game_button.action():
             self.game.pause = False
             self.game.menu_trigger = False
 
     def options(self):
-        """Fucntion for going to options menu"""
+        """
+        Function for calling the options menu.
+
+        :return: None
+        :rtype: None
+        """
+
         if self.options_button.action():
             self.game.options_game_menu.options_menu_trigger = True
             self.game.options_game_menu.run()
 
     def draw(self):
-        """Drawing function of the menu"""
+        """
+        Function for drawing the main menu
+
+        :return: None
+        :rtype: None
+        """
+
         self.draw_background()
         if self.game.pause:
             self.resume_game_button.action_lock = False
@@ -107,7 +177,13 @@ class MainMenu:
         self.start_new_game()
 
     def run(self):
-        """Running loop"""
+        """
+        Function for main menu running loop.
+
+        :return: None
+        :rtype: None
+        """
+
         while self.game.menu_trigger:
             self.check_events()
             self.update()
@@ -115,7 +191,18 @@ class MainMenu:
 
 
 class NewGame:
+    """
+    NewGame class.
+
+    """
     def __init__(self, game):
+        """
+        Init method of NewGame class
+
+        :param game: Instance of game object.
+        :type game: object
+        """
+
         self.game = game
         self.new_game_image = pg.image.load('resources/menu/menu_images/new_game_bg.jpg').convert_alpha()
 
@@ -154,20 +241,41 @@ class NewGame:
         self.npc_kill_condition = True
 
     def get_textures(self, path, res=(TEXTURE_SIZE, TEXTURE_SIZE)):
-        """Getting images and converting them"""
+        """
+        Function for getting the digits.
+
+        :param path: path to the image
+        :type path: str
+        :param res: predefined parameter
+        :type res: list
+        :return: None
+        :rtype: None
+        """
+
         texture = pg.image.load(path).convert_alpha()
         return pg.transform.scale(texture, res)
 
     def check_events(self):
-        """Function for checking events """
+        """
+        Function for event loop.
+
+        :return: None
+        :rtype: None
+        """
+
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit()
                 sys.exit()
 
     def draw_background(self):
-        """Function to draw background and to move the bg image from one side
-        to the other side"""
+        """
+        Function for drawing the moving background
+
+        :return: None
+        :rtype: None
+        """
+
         self.game.screen.blit(self.new_game_image, (0, 0), (self.new_game_image_position % WIDTH, 0, WIDTH, HEIGHT))
         if not self.rotate_back:
             self.new_game_image_position += 0.5
@@ -179,7 +287,13 @@ class NewGame:
                 self.rotate_back = False
 
     def update(self):
-        """Updating function"""
+        """
+        Function for updating.
+
+        :return: None
+        :rtype: None
+        """
+
         self.start_new_game()
         self.win_condition_options()
         self.enemy_count_options()
@@ -194,17 +308,42 @@ class NewGame:
         pg.display.flip()
 
     def back_main_menu(self):
-        """for going back to main menu"""
+        """
+        Function for calling the main menu.
+
+        :return: None
+        :rtype: None
+        """
+
         if self.back_button.action():
             self.new_game_trigger = False
 
     def draw_numbers(self, number, width, height):
-        """Drawing numbers for the kills or the time variables"""
+        """
+        Function for drawing numbers
+
+
+        :param number: Number to be drawn.
+        :type number: int
+        :param width: Width of the number
+        :type width: int
+        :param height: Height of the number
+        :type height: int
+        :return: None
+        :rtype: None
+        """
+
         for i, char in enumerate(str(number)):
             self.game.screen.blit(self.digits[char], ((i * self.digit_size) + width, height))
 
     def win_condition_options(self):
-        """Function to choose the winning condition of the game"""
+        """
+        Function to choose the winning condition of the game.
+
+        :return: None
+        :rtype: None
+        """
+
         if self.kills_condition_button.action():
             self.time_condition_button.option = False
             self.kills_condition_button.option = True
@@ -224,7 +363,13 @@ class NewGame:
             self.draw_numbers(settings.WIN_TIME // 1000, self.kill_number_slider.get_position[0] * 1.7, HEIGHT // 4)
 
     def game_difficulty_options(self):
-        """Funtion for choosing the difficulty"""
+        """
+        Function for choosing the game difficulty
+
+        :return: None
+        :rtype: None
+        """
+
         if self.easy_condition_button.action():
             self.hard_condition_button.option = False
             self.easy_condition_button.option = True
@@ -235,17 +380,39 @@ class NewGame:
             settings.DIFFICULTY = "hard"
 
     def map_generation_options(self):
-        """Function for map generation option"""
+        """
+        Function for map generation option.
+
+        The user can choose the map size before starting the new game.
+
+        :return: None
+        :rtype: None
+        """
+
         settings.LEVEL_SIZE = 30 + self.tile_number_slider.get_slider_value // 5
         self.draw_numbers(settings.LEVEL_SIZE, self.kill_number_slider.get_position[0] * 1.7, HEIGHT // 3)
 
     def enemy_count_options(self):
-        """For enemy spawn option"""
+        """
+        Function for enemy count.
+
+        The user can choose the enemy count before starting the new game.
+
+        :return: None
+        :rtype: None
+        """
+
         settings.NPC_COUNT = 5 + self.number_of_enemy_slider.get_slider_value // 2
         self.draw_numbers(settings.NPC_COUNT, self.kill_number_slider.get_position[0] * 1.7, HEIGHT // 2.4)
 
     def start_new_game(self):
-        """Starting the game calling the main game loop"""
+        """
+        Function for starting the new game.
+
+        :return: None
+        :rtype: None
+        """
+
         if self.start_game_button.action():
             self.new_game_trigger = False
             self.game.menu_trigger = False
@@ -253,7 +420,13 @@ class NewGame:
             self.game.new_game()
 
     def draw(self):
-        """Drawing function of the menu"""
+        """
+        Function for drawing the new game menu
+
+        :return: None
+        :rtype: None
+        """
+
         # drawing bg
         self.draw_background()
         # starting the game
@@ -278,8 +451,13 @@ class NewGame:
         self.back_main_menu()
 
     def run(self):
-        """Running in while loop
         """
+        Function for new game menu running loop.
+
+        :return: None
+        :rtype: None
+        """
+
         while self.new_game_trigger:
             self.check_events()
             self.update()
@@ -287,7 +465,18 @@ class NewGame:
 
 
 class SaveGameMenu:
+    """
+    Save menu class.
+
+    """
     def __init__(self, game):
+        """
+        Init method of SaveGameMenu class
+
+        :param game: Instance of game object.
+        :type game: object
+        """
+
         self.game = game
         self.save_game_image = pg.image.load('resources/menu/menu_images/save_game_bg.jpg').convert_alpha()
 
@@ -334,14 +523,30 @@ class SaveGameMenu:
         self.show_saved_game_slots()
 
     def show_saved_game_slots(self):
-        """Showing the slots that are saved game"""
+        """
+        Function for assigning saved game buttons to the empty slot list.
+
+        :return: None
+        :rtype: None
+        """
+
         savings_data = self.game.load.open_menu_saving_data()
         for i in range(len(self.empty_slot_list)):
             if str(i) in savings_data:
                 self.empty_slot_list[i] = Button(self.game.screen, 'resources/menu/buttons/saved_game.png', 1, 1.2)
 
     def get_textures(self, path, scale):
-        """Getting images and converting them"""
+        """
+        Function for getting the images
+
+        :param path: Path to the image
+        :type path: str
+        :param scale: Scale of the image
+        :type scale: float
+        :return: image
+        :rtype: pygame.image
+        """
+
         image_load = pg.image.load(path).convert_alpha()
         width = image_load.get_width()
         height = image_load.get_height()
@@ -349,8 +554,13 @@ class SaveGameMenu:
         return image
 
     def draw_background(self):
-        """Function to draw background and to move the bg image from one side
-        to the other side"""
+        """
+        Function for drawing the moving background
+
+        :return: None
+        :rtype: None
+        """
+
         self.game.screen.blit(self.save_game_image, (0, 0), (self.save_game_image_position % WIDTH, 0, WIDTH, HEIGHT))
         if not self.rotate_back:
             self.save_game_image_position += 0.5
@@ -362,19 +572,39 @@ class SaveGameMenu:
                 self.rotate_back = False
 
     def check_events(self):
-        """Checking for events"""
+        """
+        Function for event loop.
+
+        :return: None
+        :rtype: None
+        """
+
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit()
                 sys.exit()
 
     def back_main_menu(self):
-        """Back to main menu function"""
+        """
+        Function for calling the main menu.
+
+        :return: None
+        :rtype: None
+        """
+
         if self.back_button.action():
             self.save_game_menu_trigger = False
 
     def choose_slot(self):
-        """Function for choosing the slot. When user clicks on it, the slot is selected and transformed to bigger scale"""
+        """
+        Function for choosing the slot.
+
+        When user clicks on it, the slot is selected and transformed to bigger scale.
+
+        :return: None
+        :rtype: None
+        """
+
         for i in range(len(self.empty_slot_list)):
             if self.empty_slot_list[i].action():
                 self.empty_slot_list[i].option = True
@@ -383,7 +613,17 @@ class SaveGameMenu:
                     c.option = False
 
     def draw_date(self, height, data):
-        """Function for drawwing the date when game is saved"""
+        """
+        Function for drawing the date when game is saved.
+
+        :param height: Placement on the screen
+        :type height: float
+        :param data: date
+        :type data: datetime
+        :return: None
+        :rtype: None
+        """
+
         for i, char in enumerate(str(data)):
             if char == "/":
                 self.game.screen.blit(self.date_images_dict['back_slash'], ((i * self.digit_size) + self.empty_slot_list[0].get_size[0] * 1.3, height))
@@ -393,7 +633,13 @@ class SaveGameMenu:
                 self.game.screen.blit(self.date_images_dict[char], ((i * self.digit_size) + self.empty_slot_list[0].get_size[0] * 1.3, height))
 
     def save_game(self):
-        """For saving the game"""
+        """
+        Function for saving the game.
+
+        :return: None
+        :rtype: None
+        """
+
         if self.save_game_button.action():
             for i in range(len(self.empty_slot_list)):
                 if self.empty_slot_list[i].option:
@@ -410,14 +656,26 @@ class SaveGameMenu:
                         self.draw_date_no_error = False
 
     def show_saved_games(self):
-        """For showing the saved games"""
+        """
+        Function for showing the saved games.
+
+        :return: None
+        :rtype: None
+        """
+
         savings_data = self.game.load.open_menu_saving_data()
         for i in range(len(self.empty_slot_list)):
             if str(i) in savings_data:
                 self.draw_date(self.empty_slot_list_placement[i][1], savings_data[str(i)])
 
     def delete_saved_games(self):
-        """Deleting the saved games"""
+        """
+        Function for deleting the saved games.
+
+        :return: None
+        :rtype: None
+        """
+
         if self.delete_save_game_button.action():
             for i in range(len(self.empty_slot_list)):
                 if self.empty_slot_list[i].option:
@@ -425,7 +683,13 @@ class SaveGameMenu:
                     self.empty_slot_list[i] = Button(self.game.screen, 'resources/menu/buttons/empty_slot.png', 1, 1.2, option=False)
 
     def draw(self):
-        """Drawing function of the menu"""
+        """
+        Function for drawing the save game menu
+
+        :return: None
+        :rtype: None
+        """
+
         # drawing bg
         self.draw_background()
         # saving the game
@@ -439,7 +703,13 @@ class SaveGameMenu:
         self.back_main_menu()
 
     def update(self):
-        """Updating the game loop"""
+        """
+        Function for updating.
+
+        :return: None
+        :rtype: None
+        """
+
         self.save_game()
         self.choose_slot()
         self.delete_saved_games()
@@ -452,7 +722,13 @@ class SaveGameMenu:
         pg.display.flip()
 
     def run(self):
-        """Running loop"""
+        """
+        Function for save menu running loop.
+
+        :return: None
+        :rtype: None
+        """
+
         while self.save_game_menu_trigger:
             self.check_events()
             self.update()
@@ -460,7 +736,18 @@ class SaveGameMenu:
 
 
 class LoadGameMenu:
+    """
+    Load game class.
+
+    """
     def __init__(self, game):
+        """
+        Init method of LoadGameMenu class
+
+        :param game: Instance of game object.
+        :type game: object
+        """
+
         self.game = game
         self.load_game_bg_image = pg.image.load('resources/menu/menu_images/load_menu_bg.jpg').convert_alpha()
 
@@ -502,14 +789,30 @@ class LoadGameMenu:
         self.show_loaded_game_slots()
 
     def show_loaded_game_slots(self):
-        """Showing the loaded slots eg saved game"""
+        """
+        Function for assigning saved game buttons to the empty slot list.
+
+        :return: None
+        :rtype: None
+        """
+
         savings_data = self.game.load.open_menu_saving_data()
         for i in range(len(self.empty_slot_list)):
             if str(i) in savings_data:
                 self.empty_slot_list[i] = Button(self.game.screen, 'resources/menu/buttons/saved_game.png', 1, 1.2)
 
     def get_textures(self, path, scale):
-        """Getting images and converting them"""
+        """
+        Function for getting the images
+
+        :param path: Path to the image
+        :type path: str
+        :param scale: Scale of the image
+        :type scale: float
+        :return: image
+        :rtype: pygame.image
+        """
+
         image_load = pg.image.load(path).convert_alpha()
         width = image_load.get_width()
         height = image_load.get_height()
@@ -517,8 +820,13 @@ class LoadGameMenu:
         return image
 
     def draw_background(self):
-        """Function to draw background and to move the bg image from one side
-        to the other side"""
+        """
+        Function for drawing the moving background
+
+        :return: None
+        :rtype: None
+        """
+
         self.game.screen.blit(self.load_game_bg_image, (0, 0), (self.load_game_image_position % WIDTH, 0, WIDTH, HEIGHT))
         if not self.rotate_back:
             self.load_game_image_position += 0.5
@@ -530,16 +838,39 @@ class LoadGameMenu:
                 self.rotate_back = False
 
     def check_events(self):
+        """
+        Function for event loop.
+
+        :return: None
+        :rtype: None
+        """
+
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit()
                 sys.exit()
 
     def back_main_menu(self):
+        """
+        Function for calling the main menu.
+
+        :return: None
+        :rtype: None
+        """
+
         if self.back_button.action():
             self.load_game_menu_trigger = False
 
     def choose_slot(self):
+        """
+           Function for choosing the slot.
+
+           When user clicks on it, the slot is selected and transformed to bigger scale.
+
+           :return: None
+           :rtype: None
+           """
+
         for i in range(len(self.empty_slot_list)):
             if self.empty_slot_list[i].action():
                 self.empty_slot_list[i].option = True
@@ -548,6 +879,17 @@ class LoadGameMenu:
                     c.option = False
 
     def draw_date(self, height, data):
+        """
+        Function for drawing the date when game is saved.
+
+        :param height: Placement on the screen
+        :type height: float
+        :param data: date
+        :type data: datetime
+        :return: None
+        :rtype: None
+        """
+
         for i, char in enumerate(str(data)):
             if char == "/":
                 self.game.screen.blit(self.date_images_dict['back_slash'], ((i * self.digit_size) + self.empty_slot_list[0].get_size[0] * 1.3, height))
@@ -557,19 +899,39 @@ class LoadGameMenu:
                 self.game.screen.blit(self.date_images_dict[char], ((i * self.digit_size) + self.empty_slot_list[0].get_size[0] * 1.3, height))
 
     def load_game(self):
+        """
+        Function for loading the game
+
+        :return: None
+        :rtype: None
+        """
+
         if self.load_game_button.action():
             for i in range(len(self.empty_slot_list)):
                 if self.empty_slot_list[i].option:
                     self.game.load.open_game_data(str(i))
 
     def show_load_games(self):
+        """
+        Function for showing the saved game slots and date
+
+        :return: None
+        :rtype: None
+        """
+
         savings_data = self.game.load.open_menu_saving_data()
         for i in range(len(self.empty_slot_list)):
             if str(i) in savings_data:
                 self.draw_date(self.empty_slot_list_placement[i][1], savings_data[str(i)])
 
     def draw(self):
-        """Drawing function of the menu"""
+        """
+        Function for drawing the load game menu
+
+        :return: None
+        :rtype: None
+        """
+
         # drawing bg
         self.draw_background()
         # saving the game
@@ -583,6 +945,13 @@ class LoadGameMenu:
         self.back_main_menu()
 
     def update(self):
+        """
+        Function for updating.
+
+        :return: None
+        :rtype: None
+        """
+
         self.show_load_games()
         self.choose_slot()
         self.load_game()
@@ -591,6 +960,13 @@ class LoadGameMenu:
         pg.display.flip()
 
     def run(self):
+        """
+        Function for save menu running loop.
+
+        :return: None
+        :rtype: None
+        """
+
         while self.load_game_menu_trigger:
             self.check_events()
             self.update()
@@ -598,7 +974,17 @@ class LoadGameMenu:
 
 
 class Options:
+    """
+    Class Options
+
+    """
     def __init__(self, game):
+        """
+        Init method of Options class
+
+        :param game: Instance of game object.
+        :type game: object
+        """
         self.screen_resolution_dict = None
         self.game = game
         self.options_menu_bg = pg.image.load('resources/menu/menu_images/options_menu_bg.jpg').convert_alpha()
@@ -647,7 +1033,17 @@ class Options:
         self.options_data['movements'] = settings.movement_dict
 
     def get_textures(self, path, scale):
-        """Getting images and converting them"""
+        """
+        Function for getting the images
+
+        :param path: Path to the image
+        :type path: str
+        :param scale: Scale of the image
+        :type scale: float
+        :return: image
+        :rtype: pygame.image
+        """
+
         image_load = pg.image.load(path).convert_alpha()
         width = image_load.get_width()
         height = image_load.get_height()
@@ -655,7 +1051,13 @@ class Options:
         return image
 
     def check_events(self):
-        """Checking for events and looking for keybindings"""
+        """
+        Function for event loop.
+
+        :return: None
+        :rtype: None
+        """
+
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit()
@@ -667,8 +1069,13 @@ class Options:
                         settings.movement_dict[i] = event.key
 
     def draw_background(self):
-        """Function to draw background and to move the bg image from one side
-        to the other side"""
+        """
+        Function for drawing the moving background
+
+        :return: None
+        :rtype: None
+        """
+
         self.game.screen.blit(self.options_menu_bg, (0, 0), (self.options_menu_bg_position % WIDTH, 0, WIDTH, HEIGHT))
         if not self.rotate_back:
             self.options_menu_bg_position += 0.5
@@ -680,6 +1087,13 @@ class Options:
                 self.rotate_back = False
 
     def update(self):
+        """
+        Function for updating.
+
+        :return: None
+        :rtype: None
+        """
+
         self.key_bindings()
         self.mouse_sensitivity_option()
         self.volume_option()
@@ -694,10 +1108,30 @@ class Options:
         pg.display.flip()
 
     def back_main_menu(self):
+        """
+        Function for calling the main menu.
+
+        :return: None
+        :rtype: None
+        """
+
         if self.back_button.action():
             self.options_menu_trigger = False
 
     def draw_numbers(self, number, width, height):
+        """
+        Function for drawing the numbers.
+
+        :param number: number
+        :type number: int, str
+        :param width: width of the number
+        :type width: int
+        :param height: height of the number
+        :type height: int
+        :return: None
+        :rtype: None
+        """
+
         for i, char in enumerate(str(number)):
             if char == "/":
                 self.game.screen.blit(self.res_images['back_slash'], ((i * self.digit_size) + width, height))
@@ -707,6 +1141,13 @@ class Options:
                 self.game.screen.blit(self.res_images[char], ((i * self.digit_size) + width, height))
 
     def resolution_option(self):
+        """
+        Function for choosing the resolution of the screen
+
+        :return: None
+        :rtype: None
+        """
+
         res_data = {
             0: "1280/800",
             1: "1360/768",
@@ -739,14 +1180,35 @@ class Options:
             }
 
     def volume_option(self):
+        """
+        Function for choosing the volume.
+
+        :return: None
+        :rtype: None
+        """
+
         self.volume_number = self.volume_slider.get_slider_value
         self.draw_numbers(self.volume_number, self.resolution_slider.get_position[0] * 2.5, HEIGHT // 3.5)
 
     def mouse_sensitivity_option(self):
+        """
+        Function for choosing the mouse sensitivity.
+
+        :return: None
+        :rtype: None
+        """
+
         self.sensitivity = self.mouse_sensitivity_slider.get_slider_value
         self.draw_numbers(self.sensitivity, self.resolution_slider.get_position[0] * 2.5, HEIGHT // 2.7)
 
     def save_options(self):
+        """
+        Function for saving the user chosen options.
+
+        :return: None
+        :rtype: None
+        """
+
         if self.save_button.action():
             settings.MAIN_VOLUME = self.volume_number / 100
             self.options_data['volume'] = self.volume_number / 100
@@ -755,16 +1217,43 @@ class Options:
             self.game.save.save_options(self.options_data)
 
     def draw_inputs_helper(self, key_binding, width, height):
+        """
+        Helper function of draw inputs.
+
+        :param key_binding: The key that needs to be bind.
+        :type key_binding: int
+        :param width: Width position
+        :type width: int
+        :param height: Height position
+        :type height: int
+        :return: None
+        :rtype: None
+        """
+
         text = settings.FONT.render(pg.key.name(key_binding), True, settings.RED)
         text_rect = text.get_rect()
         text_rect.center = (width, height)
         self.game.screen.blit(text, text_rect)
 
     def draw_inputs(self):
+        """
+        Function for drawing the user inputs
+
+        :return: None
+        :rtype: None
+        """
+
         for i in range(len(self.key_binding_buttons_list)):
             self.draw_inputs_helper(settings.movement_dict[i], self.forwards.get_size[0] * 1.7, self.buttons_vertical_placement[i] + 20)
 
     def key_bindings(self):
+        """
+        Function for user keybindings.
+
+        :return: None
+        :rtype: None
+        """
+
         for i in range(len(self.key_binding_buttons_list)):
             if self.key_binding_buttons_list[i].action():
                 self.key_binding_buttons_list[i].option = True
@@ -773,7 +1262,12 @@ class Options:
                     c.option = False
 
     def draw(self):
-        """Drawing function of the menu"""
+        """
+        Function for drawing the options game menu
+
+        :return: None
+        :rtype: None
+        """
 
         # drawing bg
         self.draw_background()
@@ -800,6 +1294,13 @@ class Options:
         self.draw_inputs()
 
     def run(self):
+        """
+        Function for options menu running loop.
+
+        :return: None
+        :rtype: None
+        """
+
         while self.options_menu_trigger:
             self.check_events()
             self.update()
@@ -807,8 +1308,17 @@ class Options:
 
 
 class FinalScore:
+    """
+    Class FinalScore
 
+    """
     def __init__(self, game):
+        """
+        Init method of FinalScore class
+
+        :param game: Instance of game object.
+        :type game: object
+        """
 
         self.game = game
         self.final_score_bg_image = pg.image.load('resources/menu/menu_images/final_score_bg.jpg').convert_alpha()
@@ -842,7 +1352,17 @@ class FinalScore:
         self.back_button = Button(self.game.screen, 'resources/menu/buttons/back.png', 1, 1.2)
 
     def get_textures(self, path, scale):
-        """Getting images and converting them"""
+        """
+        Function for getting the images
+
+        :param path: Path to the image
+        :type path: str
+        :param scale: Scale of the image
+        :type scale: float
+        :return: image
+        :rtype: pygame.image
+        """
+
         image_load = pg.image.load(path).convert_alpha()
         width = image_load.get_width()
         height = image_load.get_height()
@@ -850,8 +1370,13 @@ class FinalScore:
         return image
 
     def draw_background(self):
-        """Function to draw background and to move the bg image from one side
-        to the other side"""
+        """
+        Function for drawing the moving background
+
+        :return: None
+        :rtype: None
+        """
+
         self.game.screen.blit(self.final_score_bg_image, (0, 0), (self.final_score_bg_position % WIDTH, 0, WIDTH, HEIGHT))
         if not self.rotate_back:
             self.final_score_bg_position += 0.5
@@ -863,7 +1388,19 @@ class FinalScore:
                 self.rotate_back = False
 
     def draw_numbers(self, number, width, height):
-        """Drawing numbers for the kills or the time variables"""
+        """
+        Function for drawing the numbers.
+
+        :param number: number
+        :type number: int
+        :param width: width of the number
+        :type width: int
+        :param height: height of the number
+        :type height: int
+        :return: None
+        :rtype: None
+        """
+
         for i, char in enumerate(str(number)):
             if char == "/":
                 self.game.screen.blit(self.res_images['back_slash'], ((i * self.digit_size) + width, height))
@@ -873,6 +1410,13 @@ class FinalScore:
                 self.game.screen.blit(self.res_images[char], ((i * self.digit_size) + width, height))
 
     def back_main_menu(self):
+        """
+        Function for calling the main menu.
+
+        :return: None
+        :rtype: None
+        """
+
         if self.back_button.action():
             self.final_score_menu_trigger = False
             self.game.pause = False
@@ -880,6 +1424,12 @@ class FinalScore:
             self.game.menu()
 
     def update(self):
+        """
+        Function for updating.
+
+        :return: None
+        :rtype: None
+        """
         pg.mixer.music.stop()
         self.game.sound.minigun_fire.stop()
         self.game.sound.chainsaw_fire.stop()
@@ -890,13 +1440,26 @@ class FinalScore:
         pg.display.flip()
 
     def check_events(self):
+        """
+        Function for event loop.
+
+        :return: None
+        :rtype: None
+        """
+
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit()
                 sys.exit()
 
     def draw(self):
-        """Drawing function of the menu"""
+        """
+        Function for drawing the stats game menu
+
+        :return: None
+        :rtype: None
+        """
+
         # drawing bg
         self.draw_background()
         # loose or win
@@ -923,6 +1486,13 @@ class FinalScore:
         self.back_button.draw(1.2, 1.2)
 
     def run(self):
+        """
+        Function for game stats menu running loop.
+
+        :return: None
+        :rtype: None
+        """
+
         while self.final_score_menu_trigger:
             self.check_events()
             self.update()

@@ -12,12 +12,32 @@ except ImportError:
     library = False
 
 
-# TODO more comments
-
 class NPC(AnimatedSprite):
+    """
+    Class npc.
+    """
     def __init__(self, game, path='resources/sprites/npc/soldier/0.png', pos=(10.5, 5.5),
                  scale=0.6, shift=0.38, animation_time=180, gone=False):
+        """
+        Init method of the class NPc
+
+        :param game: takes instance of Game class.
+        :type game: object
+        :param path: path to the npc sprites.
+        :type path: str
+        :param pos: gives the initial position of the npc.
+        :type pos: tuple
+        :param scale: scales the npc sprites.
+        :type scale: float
+        :param shift: shifts the npc sprites up and down.
+        :type shift: float
+        :param animation_time: animation time in milliseconds
+        :type animation_time: int
+        :param gone: Checks if the npc is death
+        :type gone: bool
+        """
         super().__init__(game, path, pos, scale, shift, animation_time, gone)
+
         self.attack_images = self.get_images(self.path + '/attack')
         self.death_images = self.get_images(self.path + '/death')
         self.idle_images = self.get_images(self.path + '/idle')
@@ -56,32 +76,72 @@ class NPC(AnimatedSprite):
         self.game = game
 
     def update(self):
-        """Update method"""
+        """
+        Update method.
+
+        :return: None
+        """
         self.check_animation_time()
         self.get_sprite()
         self.run_logic()
 
     def check_wall(self, x, y):
-        """Helper for the collision returns the tiles that are occupied by walls"""
+        """
+        Helper for the check wall collision function.
+
+        :param x: x coordinates of npc.
+        :type x: int
+        :param y: y coordinates of npc.
+        :type y: int
+        :return: x and y if not in the world map
+        :rtype: tuple
+        """
+
         return (x, y) not in self.game.map.world_map
 
     def check_wall_collision(self, dx, dy):
-        """Checking for wall collision. Using the size of the npcs sprite"""
+        """
+        Checking for wall collision. Using the size of the npc sprite
+
+        :param dx: next x coordinate position of npc.
+        :type dx: float
+        :param dy: next y coordinate position of npc.
+        :type dy: float
+        :return: None
+        :rtype: None
+        """
         if self.check_wall(int(self.x + dx * self.size), int(self.y)):
             self.x += dx
         if self.check_wall(int(self.x), int(self.y + dy * self.size)):
             self.y += dy
 
     def path_find(self, start, goal, mini_map):
-        """Helper function for A star algorithm of the path finding library"""
+        """Helper function for A star algorithm of the path finding library
+
+        :param start: map tile position of npc
+        :type start: tuple
+        :param goal:  map tile position of player
+        :type goal: tuple
+        :param mini_map: take s the game map
+        :type mini_map: list
+        :return: last list value
+        :rtype: tuple
+        """
+
         grid = Grid(matrix=mini_map, inverse=True)
         finder = AStarFinder()
         path, runs = finder.find_path(grid.node(start[0], start[1]), grid.node(goal[0], goal[1]), grid)
         return path[-1]
 
     def movement(self):
-        """This function is responsible for the NPC movement if the pathfinding library is installed
-        the movement is done by A star algorithm, else BFS"""
+        """Function for NPC movement
+
+        1If the pathfinding library is installed
+        the movement is done by A star algorithm, else BFS
+
+        :return None
+        :rtype: None"""
+
         if library:
             self.next_pos = self.path_find(self.map_pos, self.game.player.map_pos, self.game.map.mini_map)
         else:
@@ -90,22 +150,37 @@ class NPC(AnimatedSprite):
         next_x, next_y = self.next_pos
 
         if self.next_pos not in self.game.object_handler.npc_positions:
-            # calculates the angle math.atan2 is measuring the clockwise angle. We are getting the next positions
-            # then incrementing them 0.5 for not going into wall and subtracting the position that the npc is in.
-            # calculate the increments and check if there is a wall or not.
+            """calculates the angle math.atan2 is measuring the clockwise angle. We are getting the next positions
+            then incrementing them 0.5 for not going into wall and subtracting the position that the npc is in.
+            calculate the increments and check if there is a wall or not."""
+
             angle = math.atan2(next_y + 0.5 - self.y, next_x + 0.5 - self.x)
             dx = math.cos(angle) * self.speed
             dy = math.sin(angle) * self.speed
             self.check_wall_collision(dx, dy)
 
     def attack(self):
-        """"Attacks the player with some random accuracy"""
+        """
+        Function for attacking the player with some random accuracy.
+
+        :return: None
+        :rtype: None
+        """
+
         if self.animation_trigger:
             if random() < self.accuracy:
                 self.game.player.get_damage(self.attack_damage)
 
     def loop_drop(self):
-        """"Dropping loot logic"""
+        """
+        Function for dropping loot logic.
+
+        Checks if the NPC is alive and if the drop_loot is True
+        If drop is bigger than random it drops random selected item.
+
+        :return: None
+        :rtype: None
+        """
         if not self.alive and self.drop_loop:
             if random() < self.drop:
                 loot_choice = choice(self.game.sprite_object.loot_type_list)
@@ -114,7 +189,13 @@ class NPC(AnimatedSprite):
             self.drop_loop = False
 
     def animate_death(self):
-        """Death animation with frame counter not to continue animate it"""
+        """
+        Function for animating death.
+
+        :return: None
+        :rtype: None
+        """
+
         if not self.alive:
             if self.game.global_trigger and self.frame_counter < len(self.death_images) - 1:
                 self.death_images.rotate(-1)
@@ -122,15 +203,25 @@ class NPC(AnimatedSprite):
                 self.frame_counter += 1
 
     def animate_pain(self):
-        """"Pain animation"""
+        """
+        Function for animating pain
+
+        :return: None
+        :rtype: None
+        """
+
         self.animate(self.pain_images)
         if self.animation_trigger:
             self.pain = False
 
     def check_hit_in_npc(self):
-        """"Checking if we hit the NPC and checking the health of NPC to see if it is alive
-        With this we can increase the difficulty
-        Reduces the NPC health"""
+        """
+        Function for checking if player has hit NPC with different weapons
+
+        :return: None
+        :rtype: None
+        """
+
         height_shoot = math.isclose(self.player.half_height, HALF_HEIGHT, rel_tol=0.7)
         check = HALF_WIDTH - self.sprite_half_width < self.screen_x < HALF_WIDTH + self.sprite_half_width and height_shoot
         if self.ray_cast_value and self.game.player.shot:
@@ -153,6 +244,7 @@ class NPC(AnimatedSprite):
                     self.health -= self.game.weapon.damage
                     self.check_health()
 
+            # for minigun
             if self.player.weapon_selected == "minigun":
                 if check:
                     # self.game.sound.npc_pain.play()
@@ -164,14 +256,27 @@ class NPC(AnimatedSprite):
             self.game.player.total_damage_delt += self.game.weapon.damage
 
     def check_health(self):
-        """"Function for checking health"""
+        """
+        Function for checking NPC health
+
+        :return: None
+        :rtype: None
+        """
+
         if self.health < 1:
             self.alive = False
             self.player.frag_counter += 1
             self.game.sound.npc_death.play()
 
     def run_logic(self):
-        """"Simple run logic for the npc"""
+        """
+        Function for npc run logic.
+
+
+        :return: None
+        :rtype: None
+        """
+
         if self.alive:
             self.ray_cast_value = self.ray_cast_player_npc()
             self.check_hit_in_npc()
@@ -201,11 +306,24 @@ class NPC(AnimatedSprite):
 
     @property
     def map_pos(self):
+        """
+        Property function to return npc position on map
+
+        :return: x and y
+        :rtype: tuple
+        """
         return int(self.x), int(self.y)
 
     def ray_cast_player_npc(self):
-        """Ray casting for npc to check if the player and the enemy are on site.
-        Returns true else False remove bug when shooting through walls"""
+        """
+        Raycasting for NPC.
+
+        One line raycasting between NPC and player.
+        Is used for shooting logic and for pathfinding logic
+
+        :return: True or False
+        :rtype: Bool
+        """
         if self.game.player.map_pos == self.map_pos or self.game.player.map_pos == self.game.interactions.map_pos:
             return True
 
@@ -270,6 +388,7 @@ class NPC(AnimatedSprite):
         return False
 
 
+
 class SoldierNPC(NPC):
     def __init__(self, game, path='resources/sprites/npc/soldier/0.png', pos=(10.5, 5.5),
                  scale=0.6, shift=0.38, animation_time=180):
@@ -279,6 +398,7 @@ class SoldierNPC(NPC):
 class CyberDemonNPC(NPC):
     def __init__(self, game, path='resources/sprites/npc/cyber_demon/0.png', pos=(11.5, 6.0),
                  scale=1.0, shift=0.04, animation_time=210):
+
         super().__init__(game, path, pos, scale, shift, animation_time)
         self.gone = False
         if self.difficulty == "easy":

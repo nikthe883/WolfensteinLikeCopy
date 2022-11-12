@@ -2,12 +2,29 @@ import pygame as pg
 
 
 class Button:
+    """
+    Button class
+
+    Class that makes easy placement of buttons on the screen. Build specifically for the menu.
+    """
     def __init__(self, surface, path, scale, transform_scale_hover, option=False, action_lock=False):
-        """Button clas takes as parameter the surface on which it is drawn, path to image, scale of the image,
-        transform scale when hover. You can make the scale and the transform_scale_hover the same if you don't want
-        to have hover effect.
-        Optional parameters: option  - If True when mouse click image takes the transform_scale scale
-        action_lock - Locks the button to return True"""
+        """
+        Init function of Button class
+
+        :param surface: Pygame surface object
+        :type surface: object
+        :param path: Path to the image
+        :type path: str
+        :param scale: Scale of the image
+        :type scale: float
+        :param transform_scale_hover: Hover scale of image
+        :type transform_scale_hover: float
+        :param option: If this is and option button
+        :type option: bool
+        :param action_lock: To lock the return to True
+        :type action_lock: bool
+        """
+
         self.surface = surface
         self.action_lock = action_lock
         self.transform_scale_hover = transform_scale_hover
@@ -21,8 +38,19 @@ class Button:
         self.clicked = False
 
     def draw(self, x, y):
-        """Drawing function of the button. Placing the rect on the coordinates.
-        Takes as arguments x and y which are the positions"""
+        """
+        Drawing function of the button.
+
+        Placing the rect on the coordinates.
+        Takes as arguments x and y which are the positions
+
+        :param x: x position on the scree
+        :type x: float
+        :param y: y position on the screen
+        :type y: float
+        :return: None
+        :rtype: None
+        """
         pos = pg.mouse.get_pos()
         self.rect.topleft = (x, y)
 
@@ -38,7 +66,14 @@ class Button:
             self.surface.blit(self.image, (self.rect.x, self.rect.y))
 
     def action(self):
-        """Function that returns True if button is clicked. If action_lock - it always return true"""
+        """
+        Action function of class button
+
+        It that returns True if button is clicked. If action_lock - it always return true
+
+        :return: True or False
+        :rtype: bool
+        """
 
         action = False
 
@@ -62,11 +97,28 @@ class Button:
 
 
 class Slider:
+    """
+    Slider class
+
+    Slider class that makes easy placing the sliders on the menu.
+    """
 
     def __init__(self, surface, pos_x, pos_y, saving=False, value=None):
-        """Slider class. Take as parameters the surface, pos_x and pos_y on the screen
-        Optional parameters: saving - this when you save the game the slider to return to the same possition
-        value - again used for saving the slider - the value is taken from the saved settings."""
+        """
+        Function init of slider class
+
+        :param surface: Pygame surface object
+        :type surface: object
+        :param pos_x: x position on the screen
+        :type pos_x: float
+        :param pos_y: y position on the screen
+        :type pos_y: float
+        :param saving: Optional parameter for loading the slider position
+        :type saving: bool
+        :param value: Optional parameter for loading. Takes the loaded value
+        :type value: float
+        """
+
         self.saving = saving
         self.value = value
         self.surface = surface
@@ -86,13 +138,25 @@ class Slider:
         self.one_value = (self.max_value - self.min_value) / 100
 
     def update(self):
-        """Update function for the slider to check the mouse position"""
+        """
+        Update function for the slider to check the mouse position
+
+        :return: None
+        :rtype: None
+        """
+
         button = pg.mouse.get_pressed()
         if button[0] != 0:
             self.mouse_pos = pg.mouse.get_pos()
 
     def draw(self):
-        """Drawing function of the slicer"""
+        """
+        Drawing function of the slider
+
+        :return: None
+        :rtype: None
+        """
+
         self.surface.blit(self.slider_base, (self.pos_x, self.pos_y))
         slider_rect = self.slider.get_rect()
         if self.pos_x + self.slider.get_width() * 1.5 < self.mouse_pos[0] < self.pos_x + self.slider_base.get_width() - self.slider.get_width() * 2 and \
@@ -107,11 +171,25 @@ class Slider:
 
     @property
     def get_slider_value(self):
-        """Calculates the slide bar position in percentage"""
+        """
+        Property method of class Slider for getting the value of the slider.
+
+        Calculates the sliders value. If the number is negative returns 0.
+        Used to determine the option value eg : mouse sensitivity, volume, screen resolution.
+
+        :return: number - slide position on the screen
+        :rtype: int
+        """
+
         number = int((self.slider_pos - self.min_value) // self.one_value)
         return number if number > 0 else 0
 
     @property
     def get_position(self):
-        """Returns the possition of the slider"""
+        """
+        Property method of class slider for getting the position of the slider
+
+        :return: x and y position of slider
+        :rtype: tuple
+        """
         return self.pos_x, self.pos_y

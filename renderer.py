@@ -3,7 +3,18 @@ from map import *
 
 
 class ObjectRenderer:
+    """
+    Class ObjectRenderer
+
+    """
     def __init__(self, game):
+        """
+        Init method of the class
+
+        :param game: instance of game class
+        :type game: self
+        """
+
         self.game = game
         self.screen = game.screen
         self.wall_textures = self.load_wall_textures()
@@ -18,7 +29,13 @@ class ObjectRenderer:
         self.win_image = self.get_textures('resources/textures/win.png', SCREEN_RESOLUTION)
 
     def draw_timer(self):
-        """Function for drawing the timer if win condition by time is True"""
+        """
+        Function for drawing the timer if win condition by time is True
+
+        :return: None
+        :rtype: None
+        """
+
         if not self.game.player.npc_kill_condition:
             counting_time = int(self.game.player.win_time - self.game.player.elapsed)
             counting_seconds = str((counting_time // 1000))
@@ -29,17 +46,35 @@ class ObjectRenderer:
                 self.screen.blit(self.digits[char], ((i * self.digit_size) + HALF_WIDTH // 1.1, 0))
 
     def win(self):
-        """"win condition when the player have collected enough enemy kills"""
+        """
+        Function for drawing win screen
+
+        :return: None
+        :rtype: None
+        """
+
         self.screen.blit(self.win_image, (0, 0))
 
     def game_over(self):
-        """"Loose image blit when player lost the game"""
+        """
+        Function for drawing loosing screen
+
+        :return: None
+        :rtype: None
+        """
+
         self.screen.blit(self.game_over_image, (0, 0))
 
     def draw_player_ammo(self):
-        """"Function for showing the player ammo on the screen
-            It enumerates the int number that is given and appends the digit number
-            to the given height and width"""
+        """
+        Function for showing the player ammo on the screen
+
+        It enumerates the int number that is given and appends the digit number
+        to the given height and width
+
+        :return: None
+        :rtype: None
+        """
 
         ammo = str(self.game.player.ammo_to_show)
         for i, char in enumerate(ammo):
@@ -49,9 +84,15 @@ class ObjectRenderer:
                 self.screen.blit(self.digits[char], ((i * self.digit_size) + HALF_WIDTH // 8.8, HEIGHT - self.game.hud.hud_size[1] + 20))
 
     def draw_player_health(self):
-        """"Function for showing the player health on the screen
-            It enumerates the int number that is given and appends the digit number
-            to the given height and width"""
+        """
+        Function for showing the player health on the screen.
+
+        It enumerates the int number that is given and appends the digit number
+        to the given height and width
+
+        :return: None
+        :rtype: None
+        """
 
         health = str(self.game.player.health)
 
@@ -62,9 +103,15 @@ class ObjectRenderer:
                 self.screen.blit(self.digits[char], ((i * self.digit_size) + HALF_WIDTH // 2.4, HEIGHT - self.game.hud.hud_size[1] + 20))
 
     def draw_frag_counter(self):
-        """"Function for showing the player kills on the screen
-            It enumerates the int number that is given and appends the digit number
-            to the given height and width"""
+        """
+        Function for showing the player kills on the screen
+
+        It enumerates the int number that is given and appends the digit number
+        to the given height and width
+
+        :return: None
+        :rtype: None
+        """
 
         frag = str(self.game.player.frag_counter)
         for i, char in enumerate(frag):
@@ -76,9 +123,15 @@ class ObjectRenderer:
                 self.screen.blit(self.digits[char], ((i * self.digit_size) + HALF_WIDTH // 1.47, HEIGHT - self.game.hud.hud_size[1] + 20))
 
     def draw_player_armor(self):
-        """"Function for showing the player armor on the screen
+        """
+        Function for showing the player armor on the screen
+
         It enumerates the int number that is given and appends the digit number
-        to the given height and width"""
+        to the given height and width
+
+        :return: None
+        :rtype: None
+        """
 
         armour = str(self.game.player.armor)
         for i, num in enumerate(armour):
@@ -88,11 +141,22 @@ class ObjectRenderer:
                 self.screen.blit(self.digits[num], ((i * self.digit_size) + HALF_WIDTH * 1.21, HEIGHT - self.game.hud.hud_size[1] + 20))
 
     def player_damage(self):
-        """Bliting image when player gets damage"""
+        """
+        Function for drawing when player is damaged
+
+        :return: None
+        :rtype: None
+        """
+
         self.screen.blit(self.blood_screen, (0, 0))
 
     def draw(self):
-        """Drawing all the things in the renderer"""
+        """
+        Drawing function
+
+        :return: None
+        :rtype: None
+        """
 
         self.draw_background()
         self.render_game_object()
@@ -105,26 +169,55 @@ class ObjectRenderer:
         self.draw_timer()
 
     def draw_background(self):
-        """Drawing the background. Sky image with some offset to the player position"""
+        """
+        Function for drawing the background.
+
+        Sky image with some offset to the player position
+
+        :return: None
+        :rtype: None
+        """
+
         self.sky_offset = (self.sky_offset * 4.5 * self.game.player.rel) * 10
         self.screen.blit(self.sky_image, (self.sky_offset, self.game.player.half_height - HEIGHT))
         rectangle = pg.rect.Rect(0, self.game.player.half_height, WIDTH, HEIGHT)
         pg.draw.rect(self.screen, FLOOR_COLOR, rectangle)
 
     def render_game_object(self):
-        """Rendering the game textures from the ray casting module"""
+        """
+        Function for rendering the game textures from the ray casting module
+
+        :return: None
+        :rtype: None
+        """
         list_objects = sorted(self.game.raycasting.objects_to_render, key=lambda t: t[0], reverse=True)
         for depth, image, pos in list_objects:
             self.screen.blit(image, pos)
 
     @staticmethod
     def get_textures(path, res=(TEXTURE_SIZE, TEXTURE_SIZE)):
-        """Static method for getting images and converting them"""
+        """
+        Static method for getting images and converting them
+
+        :param path: path to image
+        :type path: str
+        :param res: resolution
+        :type res: tuple
+        :return: transformed images
+        :rtype: pygame image
+
+        """
         texture = pg.image.load(path).convert_alpha()
         return pg.transform.scale(texture, res)
 
     def load_wall_textures(self):
-        """Loading the textures of the wall"""
+        """
+        Function for loading the textures of the wall
+
+        :return: dict of the textures
+        :rtype: dict
+        """
+
         return {
             1: self.get_textures('resources/textures/1.png')
         }

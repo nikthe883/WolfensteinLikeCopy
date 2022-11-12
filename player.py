@@ -9,7 +9,18 @@ from timeit import default_timer as timer
 
 
 class Player:
+    """
+    Class Player
+
+    """
     def __init__(self, game):
+        """
+        Init method of class Player
+
+
+        :param game: game instance
+        :type game: self
+        """
 
         self.starting_pos = None
         self.game = game
@@ -50,11 +61,23 @@ class Player:
         self.load()
 
     def score(self):
-        """Calculating the total score for the end game"""
+        """
+        Function for calculating the total score for the end game
+
+        :return: None
+        :rtype: None
+        """
+
         self.total_score = self.total_ammo_fired + self.frag_counter
 
     def load(self):
-        """Loading function of the saved player parameters"""
+        """
+        Loading function of the saved player parameters
+
+        :return: None
+        :rtype: None
+        """
+
         if self.game.load.load_game:
             player_pos = self.game.load.loaded_data['player_pos']
             self.x = player_pos[0]
@@ -71,8 +94,13 @@ class Player:
             self.max_npc_kills = self.game.load.loaded_data['max_npc_kill']
 
     def win_condition(self):
+        """
+        Function for win condition on npc killed or on time passed
 
-        """" Win condition on npc killed or on time passed"""
+        :return: None
+        :rtype: None
+        """
+
         if self.npc_kill_condition:
             if self.max_npc_kills == self.frag_counter:
                 self.game.object_renderer.win()
@@ -95,7 +123,13 @@ class Player:
                     self.game.final_score_menu.run()
 
     def check_game_over(self):
-        """Checking for game over condition"""
+        """
+        Function for checking game over condition
+
+        :return: None
+        :rtype: None
+        """
+
         if self.health < 1:
             self.game.object_renderer.game_over()
             pg.display.flip()
@@ -106,8 +140,13 @@ class Player:
             self.game.final_score_menu.run()
 
     def place_player(self):
-        """A function where we randomly place the player on the map if the tile is free. If we
-        don't do that from time to time the player will be placed in a wall which will make the game to freeze"""
+        """
+        Function for random player placement
+
+        :return: player x and y
+        :rtype: tuple
+        """
+
         while True:
             self.starting_pos = (randrange(self.game.map.cols), randrange(self.game.map.rows))
             if self.starting_pos in self.game.map.world_map:
@@ -119,8 +158,13 @@ class Player:
         return self.starting_pos[0] + 0.2, self.starting_pos[1] + 0.2
 
     def fuel_consumption_chainsaw(self):
-        """"Function that checks the fuel consumption of the chainsaw and if there is no fuel it
-        stops the chainsaw"""
+        """
+        Function that checks the fuel consumption of the chainsaw
+
+        :return: None
+        :rtype: None
+        """
+
         try:
             if self.vruum_vruum_fuel_consumption:
                 self.vruum_vruum_fuel -= self.game.weapon.fuel_consumption
@@ -134,8 +178,13 @@ class Player:
             pass
 
     def minigun_ammo_consumption(self):
-        """"Function that checks the ammo consumption of the minigun and if there is no ammo it
-        stops the chainsaw"""
+        """
+        Function that checks the ammo consumption of the minigun
+
+        :return: None
+        :rtype: None
+        """
+
         try:
             if self.minigun_ammo_fires:
                 self.minigun_ammo -= self.game.weapon.ammo
@@ -149,7 +198,13 @@ class Player:
             pass
 
     def check_ammo(self):
-        """"Simple function to check if ammo is negative if it is negative make it to 0"""
+        """
+        Function to check if ammo is negative if it is negative make it to 0
+
+        :return: None
+        :rtype: None
+        """
+
         if self.ammo_to_show <= 0:
             self.ammo_to_show = 0
         if self.vruum_vruum_fuel <= 0:
@@ -160,7 +215,13 @@ class Player:
             self.minigun_ammo = 0
 
     def weapon_selector(self):
-        """"Weapon selector secondary function for """
+        """
+        Helper function for weapon selection
+
+        :return: None
+        :rtype: None
+        """
+
         if self.weapon_selected == "chainsaw":
             self.ammo_to_show = self.vruum_vruum_fuel
             self.game.weapon = self.game.weapon1
@@ -174,7 +235,15 @@ class Player:
             self.game.weapon = self.game.weapon3
 
     def weapon_selection(self, event):
-        """"Weapon selection based on 1,2,3 keys and mouse wheel"""
+        """
+        Function for weapon selection based on 1,2,3 keys and mouse wheel
+
+        :param event: event pygame
+        :type event: event
+        :return: None
+        :rtype: None
+        """
+
         if self.weapon_selected == "chainsaw":
             self.ammo_to_show = self.vruum_vruum_fuel
         if self.weapon_selected == "shotgun":
@@ -207,23 +276,43 @@ class Player:
                 self.weapon_selector()
 
     def recover_health(self):
-        """"Health recovery"""
+        """
+        Function for health recovery
+
+        :return: None
+        :rtype: None
+        """
+
         if self.check_health_recovery_delay() and self.health < PLAYER_MAX_HEALTH:
             self.health += 1
 
     def check_health_recovery_delay(self):
-        """Recovery delay for player"""
+        """
+        Function for health recovery delay
+
+        :return: True if condition is men
+        :rtype: bool
+        """
+
         time_now = pg.time.get_ticks()
         if time_now - self.time_prev > self.health_recovery_delay:
             self.time_prev = time_now
             return True
 
     def get_damage(self, damage):
-        """Taking damage from NPC,
-        and taking from armor as well
-        the armor reduces the damage
-        rendering the damage effect and sound
-        checking if player is alive"""
+        """
+        Funtion for taking damage.
+
+        Taking damage from NPC and taking from armor as well
+        the armor reduces the damage rendering the damage effect and sound
+        checking if player is alive
+
+        :param damage: damage taken
+        :type damage: int
+        :return: None
+        :rtype: None
+        """
+
         self.total_damage_received += damage
         if self.armor > 0:
             self.armor -= damage
@@ -238,10 +327,20 @@ class Player:
             self.check_game_over()
 
     def single_fire_event(self, event):
-        """"Logic for shooting, when chainsaw selected to shoot until mouse button up,
+        """
+        Function for shooting logic.
+
+        When chainsaw selected to shoot until mouse button up,
         when shotgun selected shoot and animate,
         when minigun selected shoot like chainsaw
-        and ammo restrictions"""
+        and ammo restrictions
+
+        :param event: event type
+        :type event: event
+        :return: None
+        :rtype: None
+        """
+
         if event.type == pg.MOUSEBUTTONDOWN:
             # shotgun
             if self.weapon_selected == "shotgun":
@@ -286,11 +385,19 @@ class Player:
             self.shot = False
 
     def movement(self):
-        """"Player movement. Fist we calculate the increments
+        """
+        Function for player movement
+
+        Fist we calculate the increments
         because we are on 2D using the functions of sin and cos
         Used for the player direction angle.
-        And getting out to the menu.
+        And getting out to the menu
+
+
+        :return: None
+        :rtype: None
         """
+
         self.mx, self.my = self.map_pos  # for minimap
 
         sin_a = math.sin(self.angle)
@@ -335,11 +442,30 @@ class Player:
         self.angle %= math.tau
 
     def wall_check(self, x, y):
-        """"Checking where are the walls in the map"""
+        """
+        Checking where are the walls in the map
+
+        :param x: Player x position
+        :type x: float
+        :param y: Player y position
+        :type y: float
+        :return: x and y
+        :rtype: float
+        """
         return (x, y) not in self.game.map.world_map
 
     def wall_collision(self, dx, dy):
-        """"Check for wall collision"""
+        """
+        Function for checking wall collision
+
+        :param dx: x position
+        :type dx: float
+        :param dy: y position
+        :type dy: float
+        :return: None
+        :rtype: None
+        """
+
         scale = PLAYER_SIZE_SCALE / self.game.delta_time
         if self.wall_check(int(self.x + dx * scale), int(self.y)):
             self.x += dx
@@ -347,7 +473,13 @@ class Player:
             self.y += dy
 
     def mouse_control(self):
-        """Mouse control with restriction look up and down"""
+        """
+        Function for mouse movement
+
+        :return: None
+        :rtype: None
+        """
+
         self.mx, self.my = pg.mouse.get_pos()
 
         if self.mx < MOUSE_BORDER_LEFT or self.mx > MOUSE_BORDER_RIGHT:
@@ -368,7 +500,13 @@ class Player:
             self.half_height = HALF_HEIGHT * 0.5
 
     def update(self):
-        """Updating function"""
+        """
+        Updating function
+
+        :return: None
+        :rtype: None
+        """
+
         self.recover_health()
         self.score()
         self.movement()
@@ -378,15 +516,33 @@ class Player:
         self.win_condition()
 
     def draw(self):
-        """Drawing the player on the minimap"""
+        """
+        Function for drawing the player on the minimap
+
+        :return: None
+        :rtype: None
+        """
+
         pg.draw.circle(self.game.sc_map, 'green', (self.x * MINIMAP_TILE_SIZE, self.y * MINIMAP_TILE_SIZE), 3)
 
     @property
     def pos(self):
-        """Getting the player position"""
+        """
+        Function for getting the player position
+
+        :return: x and y
+        :rtype: tuple
+        """
+
         return self.x, self.y
 
     @property
     def map_pos(self):
-        """Getting the tile possition the player is"""
+        """
+        Function for getting the tile position the player is
+
+        :return: x and y
+        :rtype: tuple
+        """
+
         return int(self.x), int(self.y)

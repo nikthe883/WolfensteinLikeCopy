@@ -3,7 +3,15 @@ import pygame as pg
 
 
 class Sound:
+    """Class Sound"""
     def __init__(self, game):
+        """
+        Init method of class Sound
+
+        :param game: Class game instance
+        :type game: self
+        """
+
         self.game = game
         pg.mixer.init(buffer=2048)
         self.path = 'resources/sound/'
@@ -18,6 +26,13 @@ class Sound:
 
 
     def update(self):
+        """
+        Updating function
+
+        :return: None
+        :rtype: None
+        """
+
         pg.mixer.music.set_volume(settings.MAIN_VOLUME)  # for volume
         self.chainsaw_fire.set_volume(settings.MAIN_VOLUME)
         self.minigun_fire.set_volume(settings.MAIN_VOLUME)

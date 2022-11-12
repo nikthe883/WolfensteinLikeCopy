@@ -22,7 +22,18 @@ pg.init()
 
 
 class Game:
+    """
+    The main class of the game.
+
+    Here all the classes from the different files are initialized.
+    The main game loop runs here
+
+    """
     def __init__(self):
+        """
+        Init method of the Game class
+
+        """
         self.load = LoadGame(self)
         self.screen = pg.display.set_mode(SCREEN_RESOLUTION)
         self.clock = pg.time.Clock()  # get clock
@@ -40,17 +51,27 @@ class Game:
         self.options_game_menu = Options(self)
         self.final_score_menu = FinalScore(self)
         self.save = SaveGame(self)
-        # calling the main menu. It is in a while loop. This is why tha game does not start
+        # calling the main menu. It is in a while loop. This is why the game does not start
         self.menu()
         self.new_game()
 
     def menu(self):
-        """This is for calling the main menu at the start of the game"""
+        """
+        Function for calling the main menu at the start of the app.
+
+        :return: None
+        :rtype: None
+        """
         pg.mouse.set_visible(True)
         self.main_menu.run()
 
     def new_game(self):
-        """Make instances of classes that we will need to start the game"""
+        """
+        Function for making instances of classes that are in the files.
+
+        :return: None
+        :rtype: None
+        """
         self.map = Map(self)
         self.player = Player(self)
         self.object_renderer = ObjectRenderer(self)
@@ -74,7 +95,15 @@ class Game:
         self.run()
 
     def update(self):
-        """The update method"""
+        """
+        Update function
+
+        All the update logic is here
+
+        :return: None
+        :rtype: None
+        """
+
         pg.mouse.set_visible(False)
         self.player.update()
         self.raycasting.update()
@@ -91,7 +120,15 @@ class Game:
         self.save.take_game_data()
 
     def draw(self):
-        """Drawing function"""
+        """
+        Drawing method.
+
+        All the drawing logic is here.
+
+        :return:
+        :rtype:
+        """
+
         self.sc_map.fill(DARKGRAY)
         self.object_renderer.draw()  # in object renderer almost all of the drawing is done
         # drawing the minimap
@@ -100,7 +137,15 @@ class Game:
         self.object_handler.draw()
 
     def check_events(self):
-        """Even loop for pressing keys"""
+        """
+        Check event method.
+
+        Checking the event loop for mouse clicks, movement etc.
+
+        :return: None
+        :rtype: None
+        """
+
         # shooting logic and event logic
         self.global_trigger = False
         for event in pg.event.get():
@@ -113,7 +158,13 @@ class Game:
             self.player.weapon_selection(event)  # weapon selection
 
     def run(self):
-        """Running the game if there is no pause"""
+        """
+        Main run loop.
+
+        :return: None
+        :rtype: None
+        """
+
         while True and not self.pause:
             self.check_events()
             self.draw()

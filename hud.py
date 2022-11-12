@@ -7,10 +7,19 @@ HEIGHT = HEIGHT
 
 
 class Hud:
-    """"Class hud everything that is showed on the screen like ammo, weapon selections, small player sprite animations,
-    without the weapons they are in a different class Weapons and the minimap."""
+    """Class hud
+
+    Everything that is showed on the screen like ammo, weapon selections, small player sprite animations,
+    without the weapons and the minimap"""
 
     def __init__(self, game):
+        """
+        Init method of class Hud
+
+        :param game: self.game
+        :type game: object
+        """
+
         self.game = game
         # getting the hud image and transforming it to size
         self.hud_image = pg.image.load("resources/HUD/HUD.png")
@@ -35,7 +44,15 @@ class Hud:
         self.wait = 2500
 
     def get_images(self, path):
-        """"Getting the hud images and converting them to transparent"""
+        """
+        Function for getting the hud images and converting them to transparent
+
+        :param path: path to the image
+        :type path: str
+        :return: images
+        :rtype: deque
+        """
+
         images = deque()
         for file_name in os.listdir(path):
             if os.path.isfile(os.path.join(path, file_name)):
@@ -45,15 +62,26 @@ class Hud:
         return images
 
     def animate_player_hud_sprite(self):
-        """"Animation function for the small player sprite in the
-        middle of the hud"""
+        """
+        Animation function for the small player sprite in the
+        middle of the hud.
+
+        :return: None
+        :rtype: None
+        """
         time_now = pg.time.get_ticks()
         if time_now - self.time_prev > self.wait:
             self.time_prev = time_now
             self.player_small_sprite_transformed.rotate(-1)
 
     def helper_for_hud_selected_weapon_view(self):
-        """"Basically the function name explains itself :D"""
+        """
+        Helper function for displaying selected weapons
+
+        :return: None
+        :rtype: None
+        """
+
         if self.game.player.weapon_selected == "chainsaw":
             self.game.screen.blit(self.weapons_transformed[1], (0, 0))
         else:
@@ -70,7 +98,12 @@ class Hud:
             self.game.screen.blit(self.weapons_transformed[2], (0, self.weapons_transformed[1].get_size()[1] * 1.8))
 
     def draw(self):
-        """Drawing method to sho on screen"""
+        """
+        Drawing function
+
+        :return: None
+        :rtype: None
+        """
 
         self.game.screen.blit(self.hud_image, (0, HEIGHT - self.hud_image.get_size()[1]))
         self.animate_player_hud_sprite()

@@ -2,7 +2,18 @@ from collections import deque
 
 
 class PathFindingBFS:
+    """
+    Class PathfindingBFS
+
+    """
     def __init__(self, game):
+        """
+        Init method of the class.
+
+        :param game: game instance
+        :type game: object
+        """
+
         self.game = game
         self.map = game.map.mini_map
         self.ways = [-1, 0], [0, -1], [1, 0], [0, 1], [-1, -1], [1, -1], [1, 1], [-1, 1]
@@ -10,7 +21,17 @@ class PathFindingBFS:
         self.get_graph()
 
     def get_path(self, start, goal):
-        """Getting the path"""
+        """
+        Function for getting the path
+
+        :param start: Start positions
+        :type start: int
+        :param goal: End of the path
+        :type goal: tuple
+        :return: last position of the path
+        :rtype: tuple
+        """
+
         self.visited = self.bfs(start, goal, self.graph)
         path = [goal]
         step = self.visited.get(goal, start)
@@ -21,7 +42,21 @@ class PathFindingBFS:
         return path[-1]
 
     def bfs(self, start, goal, graph):
-        """Bfs algorithm More info in docs"""
+        """
+        Function for BFS algorithm
+
+        More info in the docs under section Explanation
+
+        :param start: Starting position
+        :type start: int
+        :param goal: Ending position
+        :type goal: tuple
+        :param graph: The graph dict
+        :type graph: dict
+        :return: visited dict
+        :rtype: dict
+        """
+
         queue = deque([start])
         visited = {start: None}
 
@@ -38,11 +73,24 @@ class PathFindingBFS:
         return visited
 
     def get_next_nodes(self, x, y):
-        """Defining the next positions"""
+        """Function for defining the next positions
+
+            :return: list of the next positions
+            :rtype: list
+        """
+
         return [(x + dx, y + dy) for dx, dy in self.ways if (x + dx, y + dy) not in self.game.map.world_map]
 
     def get_graph(self):
-        """Here we are creating the graph for the bfs. It is a dictionary and we are giving the position plus the next positions"""
+        """
+        Function for creating the graph for the BFS.
+
+        It is a dictionary and we are giving the position plus the next positions
+
+        :return: None
+        :rtype: None
+        """
+
         for y, row in enumerate(self.map):
             for x, col in enumerate(row):
                 if not col:

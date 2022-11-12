@@ -3,6 +3,24 @@
   <component name="ChangeListManager">
     <list default="true" id="b6d8131b-a10a-4f29-af83-42f68a4c881b" name="Changes" comment="Code optimization and comments">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/button.py" beforeDir="false" afterPath="$PROJECT_DIR$/button.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hud.py" beforeDir="false" afterPath="$PROJECT_DIR$/hud.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interactions.py" beforeDir="false" afterPath="$PROJECT_DIR$/interactions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_menu.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_menu.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/map.py" beforeDir="false" afterPath="$PROJECT_DIR$/map.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/npc.py" beforeDir="false" afterPath="$PROJECT_DIR$/npc.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/object_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/object_handler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/path_find_bfs.py" beforeDir="false" afterPath="$PROJECT_DIR$/path_find_bfs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/player.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/random_map_generation.py" beforeDir="false" afterPath="$PROJECT_DIR$/random_map_generation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/raycasting.py" beforeDir="false" afterPath="$PROJECT_DIR$/raycasting.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/renderer.py" beforeDir="false" afterPath="$PROJECT_DIR$/renderer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/save_and_load_game.py" beforeDir="false" afterPath="$PROJECT_DIR$/save_and_load_game.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/save_load_game/options_save/game_options.txt" beforeDir="false" afterPath="$PROJECT_DIR$/save_load_game/options_save/game_options.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sound.py" beforeDir="false" afterPath="$PROJECT_DIR$/sound.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sprite_object.py" beforeDir="false" afterPath="$PROJECT_DIR$/sprite_object.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/weapons.py" beforeDir="false" afterPath="$PROJECT_DIR$/weapons.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -266,7 +284,9 @@
       <workItem from="1668096962137" duration="6155000" />
       <workItem from="1668112937053" duration="3266000" />
       <workItem from="1668161879097" duration="655000" />
-      <workItem from="1668164928586" duration="4382000" />
+      <workItem from="1668164928586" duration="4516000" />
+      <workItem from="1668195741013" duration="19296000" />
+      <workItem from="1668247198309" duration="11748000" />
     </task>
     <task id="LOCAL-00001" summary="Changes in sensitivity and win conditions">
       <created>1667980906080</created>
@@ -317,7 +337,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668170500427</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Code optimization and comments">
+      <created>1668171241714</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1668171241714</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -346,7 +373,7 @@
     <SUITE FILE_PATH="coverage/Wolfenstein_Copy$random_map_generation.coverage" NAME="random_map_generation Coverage Results" MODIFIED="1667392932508" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Wolfenstein_Copy$button.coverage" NAME="button Coverage Results" MODIFIED="1667583971134" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Wolfenstein_Copy$main_menu.coverage" NAME="main_menu Coverage Results" MODIFIED="1667675218830" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Wolfenstein_Copy$main.coverage" NAME="main Coverage Results" MODIFIED="1668171146981" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Wolfenstein_Copy$main.coverage" NAME="main Coverage Results" MODIFIED="1668259588911" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Wolfenstein_Copy$raycaster_fast_floorcasting.coverage" NAME="raycaster_fast_floorcasting Coverage Results" MODIFIED="1666767693467" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Downloads/raycasting+floorcasting" />
     <SUITE FILE_PATH="coverage/Wolfenstein_Copy$test.coverage" NAME="test Coverage Results" MODIFIED="1667923400575" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Wolfenstein_Copy$map_generator.coverage" NAME="map_generator Coverage Results" MODIFIED="1667391825078" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

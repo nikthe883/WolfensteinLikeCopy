@@ -4,10 +4,31 @@ from random import random, choice
 import numpy as np
 
 
-
 class ObjectInteraction(AnimatedSprite):
+    """
+    Class object interactions.
+
+    This clss is responsible for the loot drop objects - barrels
+    """
     def __init__(self, game, path='resources/sprites/interactables/barrel/0.png', pos=(10.5, 5.5),
                  scale=0.5, shift=0.5, gone=False):
+        """
+        Init method of ObjectInteraction class
+
+        :param game: instance of Game class
+        :type game: object
+        :param path: path to images
+        :type path: str
+        :param pos: position of the barrel
+        :type pos: tuple
+        :param scale: scaling the image
+        :type scale: float
+        :param shift: shifting the image
+        :type shift: float
+        :param gone: checks if destroyed
+        :type gone: bool
+        """
+
         super().__init__(game, path, pos, scale, shift, gone)
 
         self.idle_images = self.get_images(self.path + '/anim')
@@ -22,13 +43,25 @@ class ObjectInteraction(AnimatedSprite):
         self.game = game
 
     def update(self):
-        """"Updating all the things"""
+        """
+        Update method.
+
+        :return: None
+        :rtype: None
+        """
+
         self.check_animation_time()
         self.get_sprite()
         self.logic()
 
     def logic(self):
-        """A simple logic for the object if death and if alive"""
+        """
+        Function that deals with the logic of the barrel
+
+        :return: None
+        :rtype: None
+        """
+
         self.ray_cast_value = ray_cast_player_npc(self.game.player.pos, self.game.player.map_pos, self.map_pos, self.game.map.world_map, self.theta)
         self.check_if_hit()
         if self.alive:
@@ -39,7 +72,13 @@ class ObjectInteraction(AnimatedSprite):
             self.gone = True
 
     def loop_drop(self):
-        """"Dropping loot logic"""
+        """
+        Function that deals with loot drop logic
+
+        :return: None
+        :rtype: None
+        """
+
         if not self.alive and self.drop_loop:
             loot_choice = choice(self.game.sprite_object.loot_type_list)
             self.game.object_handler.add_pick_sprites(SpriteObject(self.game, path=f'resources/sprites/collectables/{loot_choice}.png',
@@ -47,7 +86,13 @@ class ObjectInteraction(AnimatedSprite):
             self.drop_loop = False
 
     def animate_death(self):
-        """Death animation with frame counter not to continue animate it"""
+        """
+        Function that animates destruction of the barrel
+
+        :return: None
+        :rtype: None
+        """
+
         if not self.alive:
             if self.game.global_trigger and self.frame_counter < len(self.death_images) - 1:
                 self.death_images.rotate(-1)
@@ -55,12 +100,24 @@ class ObjectInteraction(AnimatedSprite):
                 self.frame_counter += 1
 
     def animate_idle(self):
-        """"Idle animation function if object alive"""
+        """
+        Function that animates idle of the barrel
+
+        :return: None
+        :rtype: None
+        """
+
         if self.alive:
             self.animate(self.idle_images)
 
     def check_if_hit(self):
-        """"Checking if we hit the object"""
+        """
+        Function that checks if the object is hit or not.
+
+        :return: None
+        :rtype: None
+        """
+
         height_shoot = math.isclose(self.player.half_height, HALF_HEIGHT, rel_tol=0.7)
         if self.game.player.shot and self.alive and self.ray_cast_value:
             # for shotgun
@@ -87,13 +144,36 @@ class ObjectInteraction(AnimatedSprite):
 
     @property
     def map_pos(self):
-        """"Tile possition of the object"""
+        """
+        property method for objects position.
+
+        :return: barrels position
+        :rtype: int
+        """
+
         return int(self.x), int(self.y)
 
 
 def ray_cast_player_npc(player_position, player_map_position, self_map_position, game_map, theta):
-    """"Ray casting for shooting to check if the player and the obeject are on site.
-    Returns true else False"""
+    """
+    Function for raycasting,
+
+    It checks if the player has visual of the object. And determines if he can shoot it.
+
+    :param player_position: The position of the player
+    :type player_position: tuple
+    :param player_map_position: The map tile position of the player
+    :type player_map_position: tuple
+    :param self_map_position: The map position of the object
+    :type self_map_position: tuple
+    :param game_map: The game map
+    :type game_map: dict
+    :param theta: theta angle
+    :type theta: float
+    :return: True or False
+    :rtype: bool
+    """
+
     if player_map_position == self_map_position:
         return True
 
