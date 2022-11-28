@@ -70,28 +70,37 @@ class RayCasting:
 
         self.ray_casting_result = []
         texture_vertical, texture_horizontal = 1, 1
-        self.ox, self.oy = self.game.player.pos
-        x_map, y_map = self.game.player.map_pos
+        self.ox, self.oy = self.game.player.pos  # getting the player position
+        x_map, y_map = self.game.player.map_pos  # getting the player map tile position
 
-        ray_angle = self.game.player.angle - HALF_FOV + 0.0001
-        for ray in range(NUM_RAYS):
-            self.sin_a = np.sin(ray_angle)
-            self.cos_a = np.cos(ray_angle)
+        ray_angle = self.game.player.angle - HALF_FOV + 0.0001  # calculating the ray angle
+        for ray in range(NUM_RAYS):  # for loop for the number of rays
+            self.sin_a = np.sin(ray_angle)  # calculating sin
+            self.cos_a = np.cos(ray_angle)  # calculating cos
 
             # horizontals
+            # here we are getting the y horizontal and dy, horizontal is equal to y map position plus 1
+            # if the cos is bigger than 0 dy = 1, else getting the smallest possible value in the neighbouring tile
+            # and dy = -1
             y_horizontal, dy = (y_map + 1, 1) if self.sin_a > 0 else (y_map - 1e-6, -1)
 
+            # calculating depth horizontal and x horizontal base on trigonometric formula
+            # This is only up until the first horizontal tile intersection
+            # base on trigonometric formulas explained in docs
             depth_horizontal = (y_horizontal - self.oy) / self.sin_a
             x_horizontal = self.ox + depth_horizontal * self.cos_a
 
+            # getting the delta depth and dx
+            # base on trigonometric formulas explained in docs
             delta_depth = dy / self.sin_a
             dx = delta_depth * self.cos_a
 
-            for i in range(MAX_DEPTH):
+            for i in range(MAX_DEPTH):  # for loop for max range
                 tile_horizontal = int(x_horizontal), int(y_horizontal)
-                if tile_horizontal in self.game.map.world_map:
+                if tile_horizontal in self.game.map.world_map:  # if tile in map we get the texture base on map and break
                     texture_horizontal = self.game.map.world_map[tile_horizontal]
                     break
+                # else incrementing dx and dy and depth
                 x_horizontal += dx
                 y_horizontal += dy
                 depth_horizontal += delta_depth
